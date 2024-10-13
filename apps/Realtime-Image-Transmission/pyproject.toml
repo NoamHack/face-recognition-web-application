@@ -1,0 +1,30 @@
+[tool.coverage.run]
+branch = true
+source = [ "realtime_image_transmission" ]
+
+[tool.coverage.report]
+exclude_lines = ['if TYPE_CHECKING:']
+show_missing = true
+
+[tool.pytest.ini_options]
+addopts = "--cov --cov-fail-under=100 --cov-report html:'../../coverage/apps/realtime-image-transmission/html' --cov-report xml:'../../coverage/apps/realtime-image-transmission/coverage.xml' --junitxml='../../reports/apps/realtime-image-transmission/unittests/junit.xml' --html='../../reports/apps/realtime-image-transmission/unittests/html/index.html'"
+
+[tool.poetry]
+name = "PyPackages"
+version = "1.0.0"
+description = ""
+authors = [ ]
+license = 'Proprietary'
+readme = 'README.md'
+
+  [[tool.poetry.packages]]
+  include = "realtime_image_transmission"
+
+  [tool.poetry.dependencies]
+  python = ">=3.8,<3.11"
+
+  
+
+[build-system]
+requires = ["poetry-core==1.1.0"]
+build-backend = "poetry.core.masonry.api"
