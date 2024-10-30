@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common';
-
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { SocketModule } from './realtime-video-handler/socket.module';
+import { RealtimeVideoHandlerModule } from './realtime-video-handler/realtime-video-handler.module';
 
 @Module({
-  imports: [SocketModule],
+  imports: [RealtimeVideoHandlerModule],
   controllers: [AppController],
   providers: [AppService],
 })
