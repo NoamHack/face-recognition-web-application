@@ -8,6 +8,9 @@ import { VideoComponent } from './video.component';
   declarations: [
     VideoComponent
   ],
+  exports: [
+    VideoComponent
+  ],
   imports: [
     CommonModule
   ]
