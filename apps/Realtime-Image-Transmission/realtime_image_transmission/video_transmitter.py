@@ -36,7 +36,7 @@ def send_video():
       break
 
     # Encode frame to JPEG
-    _, buffer = cv2.imencode('.jpeg', frame)
+    _, buffer = cv2.imencode('.jpg', frame)
     # Convert to base64
     frame_base64 = base64.b64encode(buffer).decode('utf-8')
 

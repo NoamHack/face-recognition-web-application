@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, SkipSelf, ApplicationRef } from '@angular/core';
+import { Component, OnInit, SkipSelf, ApplicationRef, ElementRef, ViewChild } from '@angular/core';
 import { io } from 'socket.io-client';
 import { first } from 'rxjs/operators';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -8,10 +8,8 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
   templateUrl: './video.component.html',
   styleUrls: ['./video.component.css']
 })
-@SkipSelf()
 export class VideoComponent implements OnInit {
-  @ViewChild('videoElement', { static: false }) videoElement: ElementRef<HTMLVideoElement> | undefined;
-  videoUrl: SafeUrl | undefined;
+  @ViewChild('videoPlayer') videoPlayer!: ElementRef;
 
   constructor(private applicationRef: ApplicationRef, private sanitizer: DomSanitizer) {}
 
@@ -24,8 +22,8 @@ export class VideoComponent implements OnInit {
   startVideoStream() {
     const socket = io('http://localhost:3000');
     socket.on('frame', (frameBase64: string) => {
-      console.log('Received frame:', frameBase64);
-      this.videoUrl = this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + frameBase64);
+      console.log(frameBase64);
+      this.videoPlayer.nativeElement.src = 'data:image/jpg;base64,' + frameBase64;
     });
   }
 }
