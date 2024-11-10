@@ -1,7 +1,7 @@
-import { Component, OnInit, SkipSelf, ApplicationRef, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ApplicationRef, ElementRef, ViewChild } from '@angular/core';
 import { io } from 'socket.io-client';
 import { first } from 'rxjs/operators';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-video',
@@ -24,6 +24,7 @@ export class VideoComponent implements OnInit {
     socket.on('frame', (frameBase64: string) => {
       console.log(frameBase64);
       this.videoPlayer.nativeElement.src = 'data:image/jpg;base64,' + frameBase64;
+      this.videoPlayer.nativeElement.play();
     });
   }
 }
