@@ -22,9 +22,7 @@ export class VideoComponent implements OnInit {
   startVideoStream() {
     const socket = io('http://localhost:3000');
     socket.on('frame', (frameBase64: string) => {
-      console.log(frameBase64);
-      this.videoPlayer.nativeElement.src = 'data:image/jpg;base64,' + frameBase64;
-      this.videoPlayer.nativeElement.play();
+      this.videoPlayer.nativeElement.src = ('data:image/jpg;base64,' + frameBase64);
     });
   }
 }
