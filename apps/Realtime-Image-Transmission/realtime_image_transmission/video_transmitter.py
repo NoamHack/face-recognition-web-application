@@ -6,7 +6,6 @@ import numpy as np
 sio = socketio.Client()
 cap = cv2.VideoCapture(0)  # 0 for default webcam
 
-
 @sio.event
 def connect():
   print('Connection established')
@@ -35,16 +34,15 @@ def send_video():
     if not ret:
       break
 
-    # Encode frame to JPEG
-    _, buffer = cv2.imencode('.jpeg', frame)
-    # Convert to base64
+    frame = cv2.flip(frame, 1)
+
+    _, buffer = cv2.imencode('.jpg', frame)
+
     frame_base64 = base64.b64encode(buffer).decode('utf-8')
 
-    # Emit the frame
     sio.emit('frame', frame_base64)
 
-    # Add small delay to control frame rate
-    cv2.waitKey(1000 // 1)  # 30 FPS
+    cv2.waitKey(1000 // 60)
 
 
 sio.connect('http://localhost:3000')
