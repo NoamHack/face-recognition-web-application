@@ -1,6 +1,11 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { RegisterComponent } from './register.component';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonDirective } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { CheckboxModule } from 'primeng/checkbox';
+import { Ripple } from 'primeng/ripple';
 
 
 
@@ -8,8 +13,17 @@ import { RegisterComponent } from './register.component';
   declarations: [
     RegisterComponent
   ],
+  exports: [
+    RegisterComponent
+  ],
   imports: [
-    CommonModule
+    CommonModule,
+    InputTextModule,
+    ButtonDirective,
+    CardModule,
+    CheckboxModule,
+    NgOptimizedImage,
+    Ripple
   ]
 })
 export class RegisterModule { }
