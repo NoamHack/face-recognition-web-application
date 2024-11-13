@@ -1,7 +1,7 @@
 import cv2
 import matplotlib.pyplot as plt
 
-HAARCASCADE_PATH = './assets/haarcascade_frontalface_default.xml'
+HAARCASCADE_PATH = 'scripts/haarcascade_frontalface_default.xml'
 
 def face_detection_draw_rectangle(frame):
   face_cascade = cv2.CascadeClassifier(HAARCASCADE_PATH)

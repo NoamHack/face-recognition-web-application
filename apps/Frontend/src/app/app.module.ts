@@ -1,11 +1,15 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
 import { NxWelcomeComponent } from './nx-welcome.component';
 import { VideoModule } from './video/video.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
+import { LoginModule } from './auth/login/login.module';
+import { RegisterModule } from './auth/register/register.module';
+import { provideHttpClient, withFetch } from '@angular/common/http';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [AppComponent, NxWelcomeComponent],
@@ -14,8 +18,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     RouterModule.forRoot(appRoutes),
     VideoModule,
     BrowserAnimationsModule,
+    LoginModule,
+    RegisterModule,
   ],
-  providers: [],
+  providers: [
+    provideClientHydration(),
+    provideAnimations(),
+    provideHttpClient(withFetch()),
+    MessageService,],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
