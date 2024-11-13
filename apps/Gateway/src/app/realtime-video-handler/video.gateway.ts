@@ -4,10 +4,11 @@ import {
   SubscribeMessage,
 } from '@nestjs/websockets';
 import { Server } from 'socket.io';
+import * as process from 'node:process';
 
 @WebSocketGateway({
   cors: {
-    origin: 'http://localhost:4200',
+    origin: process.env.FRONTEND_URL,
     methods: ['GET', 'POST'],
     credentials: true,
   },
