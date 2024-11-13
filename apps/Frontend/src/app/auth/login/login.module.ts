@@ -6,22 +6,16 @@ import { ButtonDirective } from 'primeng/button';
 import { Ripple } from 'primeng/ripple';
 import { InputTextModule } from 'primeng/inputtext';
 
-
-
 @NgModule({
-  declarations: [
-    LoginComponent
-  ],
-  exports: [
-    LoginComponent
-  ],
+  declarations: [LoginComponent],
+  exports: [LoginComponent],
   imports: [
     CommonModule,
     CheckboxModule,
     ButtonDirective,
     Ripple,
     InputTextModule,
-    NgOptimizedImage
-  ]
+    NgOptimizedImage,
+  ],
 })
-export class LoginModule { }
+export class LoginModule {}

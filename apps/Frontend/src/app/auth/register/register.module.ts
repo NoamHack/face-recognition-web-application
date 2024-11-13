@@ -7,15 +7,9 @@ import { CardModule } from 'primeng/card';
 import { CheckboxModule } from 'primeng/checkbox';
 import { Ripple } from 'primeng/ripple';
 
-
-
 @NgModule({
-  declarations: [
-    RegisterComponent
-  ],
-  exports: [
-    RegisterComponent
-  ],
+  declarations: [RegisterComponent],
+  exports: [RegisterComponent],
   imports: [
     CommonModule,
     InputTextModule,
@@ -23,7 +17,7 @@ import { Ripple } from 'primeng/ripple';
     CardModule,
     CheckboxModule,
     NgOptimizedImage,
-    Ripple
-  ]
+    Ripple,
+  ],
 })
-export class RegisterModule { }
+export class RegisterModule {}

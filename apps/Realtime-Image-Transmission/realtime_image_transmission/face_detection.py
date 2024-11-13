@@ -10,6 +10,6 @@ def face_detection_draw_rectangle(frame):
                                         flags=cv2.CASCADE_SCALE_IMAGE)
 
   for (x, y, w, h) in faces:
-    cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+    cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
 
   return frame

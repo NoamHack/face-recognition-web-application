@@ -1,13 +1,8 @@
-.video-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
+.video-frame {
+  border: 2px solid #ccc; /* Adds a solid border */
+  transition: transform 0.3s; /* Adds a transition effect */
 }
 
-.video-frame {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
+.video-frame:hover {
+  transform: scale(1.05); /* Slightly scales up the image on hover */
 }
