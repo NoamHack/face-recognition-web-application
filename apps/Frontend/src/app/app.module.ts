@@ -6,6 +6,7 @@ import { appRoutes } from './app.routes';
 import { NxWelcomeComponent } from './nx-welcome.component';
 import { VideoModule } from './video/video.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LoginModule } from './login/login.module';
 
 @NgModule({
   declarations: [AppComponent, NxWelcomeComponent],
@@ -14,6 +15,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     RouterModule.forRoot(appRoutes),
     VideoModule,
     BrowserAnimationsModule,
+    LoginModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
