@@ -17,20 +17,6 @@ authors = [ ]
 license = "Proprietary"
 readme = "README.md"
 
-  [[tool.poetry.packages]]
-  include = "realtime_image_transmission"
-
-  [tool.poetry.dependencies]
-  python = ">=3.8,<3.11"
-  opencv-python = "^4.10.0.84"
-  websocket-client = "^1.8.0"
-  websockets = "^13.1"
-  requests = "^2.32.3"
-
-    [tool.poetry.dependencies.python-socketio]
-    extras = [ "client" ]
-    version = "^5.11.4"
-
 [build-system]
 requires = [ "poetry-core==1.1.0" ]
 build-backend = "poetry.core.masonry.api"
