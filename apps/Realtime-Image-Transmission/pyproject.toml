@@ -3,7 +3,7 @@ branch = true
 source = [ "realtime_image_transmission" ]
 
 [tool.coverage.report]
-exclude_lines = ['if TYPE_CHECKING:']
+exclude_lines = [ "if TYPE_CHECKING:" ]
 show_missing = true
 
 [tool.pytest.ini_options]
@@ -14,8 +14,8 @@ name = "PyPackages"
 version = "1.0.0"
 description = ""
 authors = [ ]
-license = 'Proprietary'
-readme = 'README.md'
+license = "Proprietary"
+readme = "README.md"
 
   [[tool.poetry.packages]]
   include = "realtime_image_transmission"
@@ -25,11 +25,12 @@ readme = 'README.md'
   opencv-python = "^4.10.0.84"
   websocket-client = "^1.8.0"
   websockets = "^13.1"
-  python-socketio = {extras = ["client"], version = "^5.11.4"}
   requests = "^2.32.3"
 
-  
+    [tool.poetry.dependencies.python-socketio]
+    extras = [ "client" ]
+    version = "^5.11.4"
 
 [build-system]
-requires = ["poetry-core==1.1.0"]
+requires = [ "poetry-core==1.1.0" ]
 build-backend = "poetry.core.masonry.api"
