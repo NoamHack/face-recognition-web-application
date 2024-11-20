@@ -4,7 +4,7 @@ export class UserDto {
   @IsString()
   @IsNotEmpty()
   userEmail: string | undefined;
-  @IsNumber()
+  @IsString()
   @IsNotEmpty()
   userPassword: string | undefined;
   @IsString()

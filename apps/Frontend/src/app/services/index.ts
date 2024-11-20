@@ -1,1 +1,1 @@
-export * from './user.service';
+export * from './solider.service';

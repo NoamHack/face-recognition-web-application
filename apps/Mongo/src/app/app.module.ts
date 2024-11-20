@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserMongoModule } from './user/user-mongo.module';
+import { SoliderMongoModule } from './user/solider-mongo.module';
 
 @Module({
-  imports: [UserMongoModule],
+  imports: [SoliderMongoModule],
   controllers: [AppController],
   providers: [AppService],
 })

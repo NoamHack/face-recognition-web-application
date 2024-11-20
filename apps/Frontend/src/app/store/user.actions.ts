@@ -1,17 +1,18 @@
 import { createAction, props } from '@ngrx/store';
 
-export const registerUser = createAction(
-  '[User] Register User',
+export const addSolider = createAction(
+  '[Solider] Add Solider',
   props<{
-    userName: string;
-    userPassword: string;
-    userEmail: string;
-    userAge: number;
-    departmentNumber: number;
+    soliderFirstName: string;
+    soliderLastName: string;
+    soliderClassificationLevel: number;
+    soliderPersonalNumber: number;
   }>()
 );
-export const registerUserSuccess = createAction('[User] Register User Success');
-export const registerUserFailure = createAction(
-  '[User] Register User Failure',
+
+export const addSoliderSuccess = createAction('[Solider] Add Solider Success');
+
+export const addSoliderFailure = createAction(
+  '[Solider] Add Solider Failure',
   props<{ error: any }>()
 );

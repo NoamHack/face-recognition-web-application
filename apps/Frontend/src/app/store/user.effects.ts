@@ -2,58 +2,53 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { from, of } from 'rxjs';
-import {
-  registerUser,
-  registerUserFailure,
-  registerUserSuccess,
-} from './user.actions';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { UserService } from '../services';
 import { AuthGuard } from '../auth/guard/auth.guard';
+import { addSolider, addSoliderFailure, addSoliderSuccess } from './user.actions';
+import { SoliderService } from '../services';
 
 @Injectable()
-export class UserEffects {
+export class SoliderEffects {
   constructor(
     private actions$: Actions,
     private router: Router,
-    private userService: UserService,
+    private soliderService: SoliderService,
     private messageService: MessageService
   ) {
   }
 
-  registerUser$ = createEffect(() =>
+  addSolider$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(registerUser),
+      ofType(addSolider),
       switchMap(
-        ({ userName, userPassword, userEmail, userAge, departmentNumber }) =>
+        ({ soliderFirstName, soliderLastName, soliderClassificationLevel, soliderPersonalNumber }) =>
           from(
-            this.userService.registerUser(
-              userName,
-              userPassword,
-              userEmail,
-              userAge,
-              departmentNumber
+            this.soliderService.addSolider(
+              soliderFirstName,
+              soliderLastName,
+              soliderClassificationLevel,
+              soliderPersonalNumber
             )
           ).pipe(
             map(() => {
-              return registerUserSuccess();
+              return addSoliderSuccess();
             }),
             catchError((error) => {
-              console.error('Error registering user:', error);
-              return of(registerUserFailure({ error }));
+              console.error('Error adding soldier:', error);
+              return of(addSoliderFailure({ error }));
             })
           )
       )
     )
   );
 
-  registerUserSuccess$ = createEffect(
+  addSoliderSuccess$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(registerUserSuccess),
+        ofType(addSoliderSuccess),
         tap(() => {
-          console.log('User registered successfully');
+          console.log('Soldier added successfully');
           AuthGuard.AccessUrlNavigation();
           this.router.navigate(['/login']);
         })
