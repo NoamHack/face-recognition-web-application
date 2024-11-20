@@ -13,10 +13,10 @@ export class Solider {
   soliderLastName: string;
 
   @Prop()
-  soliderClassificationLevel: Number;
+  soliderClassificationLevel: number;
 
   @Prop()
-  soliderPersonalNumber: Number;
+  soliderPersonalNumber: number;
 
 }
 

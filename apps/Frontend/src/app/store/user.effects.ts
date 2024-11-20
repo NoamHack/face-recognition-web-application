@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { from, of } from 'rxjs';
 import { Router } from '@angular/router';
@@ -7,9 +7,10 @@ import { MessageService } from 'primeng/api';
 import { AuthGuard } from '../auth/guard/auth.guard';
 import { addSolider, addSoliderFailure, addSoliderSuccess } from './user.actions';
 import { SoliderService } from '../services';
+import { Actions } from '@ngrx/effects';
 
 @Injectable()
-export class SoliderEffects {
+export class UserEffects {
   constructor(
     private actions$: Actions,
     private router: Router,
@@ -21,24 +22,33 @@ export class SoliderEffects {
   addSolider$ = createEffect(() =>
     this.actions$.pipe(
       ofType(addSolider),
-      switchMap(
-        ({ soliderFirstName, soliderLastName, soliderClassificationLevel, soliderPersonalNumber }) =>
-          from(
-            this.soliderService.addSolider(
-              soliderFirstName,
-              soliderLastName,
-              soliderClassificationLevel,
-              soliderPersonalNumber
-            )
-          ).pipe(
-            map(() => {
-              return addSoliderSuccess();
-            }),
-            catchError((error) => {
-              console.error('Error adding soldier:', error);
-              return of(addSoliderFailure({ error }));
-            })
+      switchMap(({ soliderFirstName, soliderLastName, soliderClassificationLevel, soliderPersonalNumber }) =>
+        from(
+          this.soliderService.addSolider(
+            soliderFirstName,
+            soliderLastName,
+            soliderClassificationLevel,
+            soliderPersonalNumber
           )
+        ).pipe(
+          map(() => {
+            return addSoliderSuccess();
+          }),
+          tap(() => {
+            console.log('Soldier added successfully');
+            AuthGuard.AccessUrlNavigation();
+            this.router.navigate(['/login']);
+          }),
+          catchError((error) => {
+            console.error('Error adding soldier:', error);
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Failed to add soldier',
+            });
+            return of(addSoliderFailure({ error }));
+          })
+        )
       )
     )
   );

@@ -13,7 +13,7 @@ export class AppComponent {
   constructor(
     protected router: Router
   ) {
-    router.navigate(['/login'], { skipLocationChange: true });
+    router.navigate(['/add'], { skipLocationChange: true });
   }
 }
 
