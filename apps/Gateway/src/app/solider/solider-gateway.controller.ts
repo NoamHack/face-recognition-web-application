@@ -3,7 +3,7 @@ import process from 'node:process';
 import axios from 'axios';
 import { SoliderDto } from './dto/solider.dto';
 
-@Controller('solider-gateway')
+@Controller('solider')
 export class SoliderGatewayController {
   private mongoMicroserviceUrl = process.env.USER_MONGO_MICROSERVICE_URL;
 
@@ -11,7 +11,7 @@ export class SoliderGatewayController {
   async createSolider(@Body() soliderDto: SoliderDto, @Res() response: any) {
     try {
       const { data } = (
-        await axios.post(`${this.mongoMicroserviceUrl}`, soliderDto, {
+        await axios.post(`${this.mongoMicroserviceUrl}/solider`, soliderDto, {
           withCredentials: true,
         })
       ).data;

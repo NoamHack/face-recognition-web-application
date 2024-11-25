@@ -1,29 +1,19 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
-import { sha256 } from 'js-sha256';
+import { SoliderDto } from '../dto/solider.dto';
 
 
 @Injectable({
   providedIn: 'root',
 })
 export class SoliderService {
-
-  addSolider(
-    soliderFirstName: string,
-    soliderLastName: string,
-    soliderClassificationLevel: number,
-    soliderPersonalNumber: number
-  ) {
+  addSolider(soliderDto: SoliderDto) {
     return axios.post(
-      `http://localhost:3000`,
-      {
-        soliderFirstName,
-        soliderLastName,
-        soliderClassificationLevel,
-        soliderPersonalNumber,
-      },
+      `http://localhost:3000/solider`,
+      soliderDto,
       {
         headers: { 'Content-Type': 'application/json' },
+        withCredentials: true
       }
     );
   }
