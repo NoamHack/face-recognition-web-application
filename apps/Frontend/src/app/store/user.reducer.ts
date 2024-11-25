@@ -1,12 +1,10 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import {
-
-} from './user.actions';
+import { addSolider, addSoliderSuccess, addSoliderFailure } from './user.actions';
 
 export interface UserState {
   connected: boolean;
   departmentNumber: string;
-  users: never[];
+  users: any[];
   userName: string;
 }
 
@@ -18,7 +16,10 @@ const initialState: UserState = {
 };
 
 export const userReducer = createReducer(
-  initialState
+  initialState,
+  on(addSolider, (state) => state),
+  on(addSoliderSuccess, (state) => state),
+  on(addSoliderFailure, (state) => state)
 );
 
 export const userFeature = createFeature({

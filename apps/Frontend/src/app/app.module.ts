@@ -1,16 +1,10 @@
 import { NgModule } from '@angular/core';
-import {
-  BrowserModule,
-  provideClientHydration,
-} from '@angular/platform-browser';
+import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
 import { VideoModule } from './video/video.module';
-import {
-  BrowserAnimationsModule,
-  provideAnimations,
-} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { LoginModule } from './auth/login/login.module';
 import { RegisterModule } from './auth/register/register.module';
 import { provideHttpClient, withFetch } from '@angular/common/http';
@@ -33,7 +27,6 @@ import { SoliderService } from './services';
     RegisterModule,
     StoreModule.forRoot(),
     StoreModule.forFeature(userFeature),
-    EffectsModule.forFeature([UserEffects]),
     EffectsModule.forRoot([UserEffects]),
   ],
   providers: [
@@ -42,7 +35,7 @@ import { SoliderService } from './services';
     provideHttpClient(withFetch()),
     provideStoreDevtools({ maxAge: 25, logOnly: environment.production }),
     MessageService,
-    SoliderService
+    SoliderService,
   ],
   bootstrap: [AppComponent],
 })
