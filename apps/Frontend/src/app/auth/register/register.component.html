@@ -1,69 +1,26 @@
 <div class="flex-auto flex align-items-center justify-content-center p-5">
   <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
     <div class="text-center mb-5">
-      <img
-        ngSrc="/108logo.png"
-        alt="Image"
-        height="100"
-        class="mb-3"
-        width="100"
-        priority=""
-      />
-      <div class="text-900 text-3xl font-medium mb-3">Add Solider</div>
+      <img src="/108logo.png" alt="Image" height="100" class="mb-3" width="100" />
+      <div class="text-900 text-3xl font-medium mb-3">Add Soldier</div>
     </div>
 
-    <div>
-      <label for="first-name" class="block text-900 font-medium mb-2"
-        >First Name:</label
-      >
-      <input
-        id="first-name"
-        type="text"
-        placeholder="First Name"
-        pInputText
-        class="w-full mb-3"
-      />
+    <form (ngSubmit)="onSubmit()">
+      <div>
+        <label for="first-name" class="block text-900 font-medium mb-2">First Name:</label>
+        <input id="first-name" type="text" placeholder="First Name" pInputText class="w-full mb-3" [(ngModel)]="soliderDto.soliderFirstName" name="soliderFirstName" />
 
-      <label for="last-name" class="block text-900 font-medium mb-2"
-        >Last Name:</label
-      >
-      <input
-        id="last-name"
-        type="text"
-        placeholder="Last Name"
-        pInputText
-        class="w-full mb-3"
-      />
+        <label for="last-name" class="block text-900 font-medium mb-2">Last Name:</label>
+        <input id="last-name" type="text" placeholder="Last Name" pInputText class="w-full mb-3" [(ngModel)]="soliderDto.soliderLastName" name="soliderLastName" />
 
-      <label for="classification-level" class="block text-900 font-medium mb-2"
-        >Classification Level:</label
-      >
-      <input
-        id="classification-level"
-        type="number"
-        placeholder="Classification Level"
-        pInputText
-        class="w-full mb-3"
-      />
+        <label for="classification-level" class="block text-900 font-medium mb-2">Classification Level:</label>
+        <input id="classification-level" type="number" placeholder="Classification Level" pInputText class="w-full mb-3" [(ngModel)]="soliderDto.soliderClassificationLevel" name="soliderClassificationLevel" />
 
-      <label for="personal-number" class="block text-900 font-medium mb-2"
-        >Personal Number:</label
-      >
-      <input
-        id="personal-number"
-        type="password"
-        placeholder="Personal Number"
-        pInputText
-        class="w-full mb-3"
-      />
+        <label for="personal-number" class="block text-900 font-medium mb-2">Personal Number:</label>
+        <input id="personal-number" type="text" placeholder="Personal Number" pInputText class="w-full mb-3" [(ngModel)]="soliderDto.soliderPersonalNumber" name="soliderPersonalNumber" />
 
-      <button
-        pButton
-        pRipple
-        label="Add Solider"
-        icon="pi pi-user"
-        class="w-full"
-      ></button>
-    </div>
+        <button pButton pRipple type="submit" label="Add Soldier" icon="pi pi-user" class="w-full"></button>
+      </div>
+    </form>
   </div>
 </div>

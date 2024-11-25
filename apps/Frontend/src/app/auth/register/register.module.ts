@@ -6,6 +6,7 @@ import { ButtonDirective } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { CheckboxModule } from 'primeng/checkbox';
 import { Ripple } from 'primeng/ripple';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [RegisterComponent],
@@ -18,6 +19,7 @@ import { Ripple } from 'primeng/ripple';
     CheckboxModule,
     NgOptimizedImage,
     Ripple,
-  ],
+    FormsModule
+  ]
 })
 export class RegisterModule {}
