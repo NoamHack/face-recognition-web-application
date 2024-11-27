@@ -9,9 +9,13 @@ import {
   addSolider,
   addSoliderFailure,
   addSoliderSuccess,
+  addSoliderPics,
+  addSoliderPicsSuccess,
+  addSoliderPicsFailure,
 } from './user.actions';
 import { SoliderService } from '../services';
 import { SoliderDto } from '../dto/solider.dto';
+import { SoliderPicsDto } from '../dto/solider-pics.dto';
 
 @Injectable()
 export class UserEffects {
@@ -63,6 +67,48 @@ export class UserEffects {
           console.log('Soldier added successfully');
           AuthGuard.AccessUrlNavigation();
           this.router.navigate(['/login']);
+        })
+      ),
+    { dispatch: false }
+  );
+
+  addSoliderPics$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(addSoliderPics),
+      switchMap((action) => {
+        const soliderPicsDto: SoliderPicsDto = {
+          soliderPersonalNumber: action.soliderPersonalNumber,
+          soliderFrontPic: action.soliderFrontPic,
+          soliderLeftProfilePic: action.soliderLeftProfilePic,
+          soliderRightProfilePic: action.soliderRightProfilePic,
+        };
+        return from(this.soliderService.addSoliderPics(soliderPicsDto)).pipe(
+          map(() => {
+            return addSoliderPicsSuccess();
+          }),
+          tap(() => {
+            console.log('Soldier pics added successfully');
+          }),
+          catchError((error) => {
+            console.error('Error adding soldier pics:', error);
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Failed to add soldier pics',
+            });
+            return of(addSoliderPicsFailure({ error }));
+          })
+        );
+      })
+    )
+  );
+
+  addSoliderPicsSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(addSoliderPicsSuccess),
+        tap(() => {
+          console.log('Soldier pics added successfully');
         })
       ),
     { dispatch: false }

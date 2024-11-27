@@ -3,6 +3,9 @@ import {
   addSolider,
   addSoliderSuccess,
   addSoliderFailure,
+  addSoliderPics,
+  addSoliderPicsFailure,
+  addSoliderPicsSuccess,
 } from './user.actions';
 
 export interface UserState {
@@ -23,7 +26,10 @@ export const userReducer = createReducer(
   initialState,
   on(addSolider, (state) => state),
   on(addSoliderSuccess, (state) => state),
-  on(addSoliderFailure, (state) => state)
+  on(addSoliderFailure, (state) => state),
+  on(addSoliderPics, (state) => state),
+  on(addSoliderPicsSuccess, (state) => state),
+  on(addSoliderPicsFailure, (state) => state)
 );
 
 export const userFeature = createFeature({

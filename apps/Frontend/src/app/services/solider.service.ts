@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
 import { SoliderDto } from '../dto/solider.dto';
+import { SoliderPicsDto } from '../dto/solider-pics.dto';
+import { SoliderPics } from '../../../../Mongo/src/app/user/schema/solider-pics.schema';
 
 @Injectable({
   providedIn: 'root',
@@ -8,6 +10,13 @@ import { SoliderDto } from '../dto/solider.dto';
 export class SoliderService {
   addSolider(soliderDto: SoliderDto) {
     return axios.post(`http://localhost:3000/solider`, soliderDto, {
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true,
+    });
+  }
+
+  addSoliderPics(soliderPicsDto: SoliderPicsDto) {
+    return axios.post(`http://localhost:3000/solider`, soliderPicsDto, {
       headers: { 'Content-Type': 'application/json' },
       withCredentials: true,
     });
