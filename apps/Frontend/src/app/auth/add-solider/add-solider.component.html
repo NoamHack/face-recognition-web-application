@@ -29,9 +29,14 @@
           (click)="openCaptureDialog()"
         ></button>
 
-        <div *ngIf="countdown > 0" class="text-center text-2xl mb-3">{{ countdown }}</div>
+        <div class="flex justify-content-center align-items-center p-4">
+          <div class="surface-card p-4 shadow-2 border-round" style="width: 400px;">
+            <div *ngIf="countdown > 0" class="text-center text-4xl font-bold text-900 mb-3">{{ countdown }}</div>
+              <video #video autoplay muted style="width: 100%; height: auto;"></video>
+            <canvas #canvas style="display: none;"></canvas>
+          </div>
+        </div>
 
-        <canvas #canvas style="display: none;"></canvas>
 
         <button pButton pRipple type="submit" label="Add Soldier" icon="pi pi-user" class="w-full"></button>
       </div>

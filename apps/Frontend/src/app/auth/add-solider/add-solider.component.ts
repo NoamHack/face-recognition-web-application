@@ -1,4 +1,4 @@
-import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SoliderDto } from '../../dto/solider.dto';
 import { addSolider } from '../../store';
@@ -11,7 +11,6 @@ import { MessageService } from 'primeng/api';
   providers: [MessageService]
 })
 export class AddSoliderComponent {
-
   @ViewChild('video') video!: ElementRef;
   @ViewChild('canvas') canvas!: ElementRef;
   photos: string[] = [];
@@ -22,15 +21,14 @@ export class AddSoliderComponent {
   displayPhotosDialog = false;
   snd = new Audio("/3-2-1-countdown.mp3");
 
-  constructor(private store: Store, private renderer: Renderer2, private messageService: MessageService) {}
+  constructor(private store: Store, private messageService: MessageService) {}
 
   onSubmit() {
     if(this.photos[0] !== undefined) {
       this.store.dispatch(addSolider(this.soliderDto));
       this.resetForm();
     }
-    else
-    {
+    else {
       this.messageService.add({ icon:'pi pi-camera', severity: 'error', summary: 'Photos Must Be Taken', detail: 'Please take pictures of the solider before adding a solider' });
     }
   }
@@ -42,18 +40,13 @@ export class AddSoliderComponent {
   async capturePhotos() {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      const videoElement = this.renderer.createElement('video');
-      this.renderer.setAttribute(videoElement, 'autoplay', 'true');
-      this.renderer.setAttribute(videoElement, 'muted', 'true');
-      videoElement.srcObject = stream;
+      this.videoStream = stream;
+      this.video.nativeElement.srcObject = stream;
+      await new Promise((resolve) => (this.video.nativeElement.onloadedmetadata = resolve));
+      this.video.nativeElement.play();
+      this.video.nativeElement.style.display = 'block';
 
-      this.video = videoElement;
-
-      await new Promise((resolve) => (videoElement.onloadedmetadata = resolve));
-      videoElement.play();
-
-      this.takePhotos(videoElement, 3, 5000);
-
+      this.takePhotos(this.video.nativeElement, 3, 5000);
     } catch (error) {
       console.error('Error capturing photos:', error);
     }
@@ -103,6 +96,7 @@ export class AddSoliderComponent {
       const tracks = this.videoStream.getTracks();
       tracks.forEach((track) => track.stop());
       console.log('Camera stopped.');
+      this.video.nativeElement.style.display = 'none';
     }
   }
 
@@ -122,10 +116,12 @@ export class AddSoliderComponent {
   retakePhotos() {
     this.photos = [];
     this.displayPhotosDialog = false;
+    this.video.nativeElement.style.display = 'none';
     this.capturePhotos();
   }
 
   savePhotos() {
     this.displayPhotosDialog = false;
+    this.video.nativeElement.style.display = 'none';
   }
 }
