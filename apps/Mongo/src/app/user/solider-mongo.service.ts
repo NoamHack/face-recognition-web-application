@@ -7,7 +7,7 @@ import { Solider, SoliderDocument } from './schema/solider.schema';
 @Injectable()
 export class SoliderMongoService {
   constructor(
-    @InjectModel(Solider.name) private soliderModel: Model<SoliderDocument>,
+    @InjectModel(Solider.name) private soliderModel: Model<SoliderDocument>
   ) {}
 
   async createSolider(soliderDto: SoliderDto): Promise<Solider> {

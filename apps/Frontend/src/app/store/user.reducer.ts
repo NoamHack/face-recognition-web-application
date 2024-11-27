@@ -1,5 +1,9 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { addSolider, addSoliderSuccess, addSoliderFailure } from './user.actions';
+import {
+  addSolider,
+  addSoliderSuccess,
+  addSoliderFailure,
+} from './user.actions';
 
 export interface UserState {
   connected: boolean;

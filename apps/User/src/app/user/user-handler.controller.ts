@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  Body,
-  Controller,
-  Post,
-} from '@nestjs/common';
+import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
 import { UserDto } from './dto/user.dto';
 import * as process from 'node:process';
 import { UserHandlerService } from './user-handler.service';

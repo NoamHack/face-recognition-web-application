@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
-export class SoliderDto {
+export class SoliderPicsDto {
   @IsNumber()
   @IsNotEmpty()
   soliderPersonalNumber!: number;

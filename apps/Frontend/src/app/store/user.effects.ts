@@ -5,10 +5,13 @@ import { from, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { AuthGuard } from '../auth/guard/auth.guard';
-import { addSolider, addSoliderFailure, addSoliderSuccess } from './user.actions';
+import {
+  addSolider,
+  addSoliderFailure,
+  addSoliderSuccess,
+} from './user.actions';
 import { SoliderService } from '../services';
 import { SoliderDto } from '../dto/solider.dto';
-
 
 @Injectable()
 export class UserEffects {
@@ -36,8 +39,7 @@ export class UserEffects {
           tap(() => {
             console.log('Soldier added successfully');
             AuthGuard.AccessUrlNavigation();
-            this.router.navigate(['/login'],{ skipLocationChange: true });
-
+            this.router.navigate(['/login'], { skipLocationChange: true });
           }),
           catchError((error) => {
             console.error('Error adding soldier:', error);

@@ -23,7 +23,7 @@ import { DialogModule } from 'primeng/dialog';
     Ripple,
     FormsModule,
     ToastModule,
-    DialogModule
-  ]
+    DialogModule,
+  ],
 })
 export class AddSoliderModule {}
