@@ -19,6 +19,18 @@
         <label for="personal-number" class="block text-900 font-medium mb-2">Personal Number:</label>
         <input id="personal-number" type="text" placeholder="Personal Number" pInputText class="w-full mb-3" [(ngModel)]="soliderDto.soliderPersonalNumber" name="soliderPersonalNumber" />
 
+        <button
+          pButton
+          pRipple
+          type="button"
+          label="Capture Solider Photos"
+          icon="pi pi-camera"
+          class="w-full mt-2 mb-3"
+          (click)="capturePhotos()"
+        ></button>
+
+        <canvas #canvas style="display: none;"></canvas>
+
         <button pButton pRipple type="submit" label="Add Soldier" icon="pi pi-user" class="w-full"></button>
       </div>
     </form>

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { RegisterComponent } from './register.component';
+import { AddSoliderComponent } from './add-solider.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonDirective } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -9,8 +9,8 @@ import { Ripple } from 'primeng/ripple';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [RegisterComponent],
-  exports: [RegisterComponent],
+  declarations: [AddSoliderComponent],
+  exports: [AddSoliderComponent],
   imports: [
     CommonModule,
     InputTextModule,
@@ -22,4 +22,4 @@ import { FormsModule } from '@angular/forms';
     FormsModule
   ]
 })
-export class RegisterModule {}
+export class AddSoliderModule {}

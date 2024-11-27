@@ -6,7 +6,7 @@ import { appRoutes } from './app.routes';
 import { VideoModule } from './video/video.module';
 import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { LoginModule } from './auth/login/login.module';
-import { RegisterModule } from './auth/register/register.module';
+import { AddSoliderModule } from './auth/add-solider/add-solider.module';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { StoreModule } from '@ngrx/store';
@@ -24,7 +24,7 @@ import { SoliderService } from './services';
     VideoModule,
     BrowserAnimationsModule,
     LoginModule,
-    RegisterModule,
+    AddSoliderModule,
     StoreModule.forRoot(),
     StoreModule.forFeature(userFeature),
     EffectsModule.forRoot([UserEffects]),

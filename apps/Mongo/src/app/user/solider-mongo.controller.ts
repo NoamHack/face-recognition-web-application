@@ -8,7 +8,6 @@ export class SoliderMongoController {
 
   @Post()
   async createSolider(@Body() soliderDto: SoliderDto) {
-    console.log("hello")
     return this.soliderService.createSolider(soliderDto);
   }
 }

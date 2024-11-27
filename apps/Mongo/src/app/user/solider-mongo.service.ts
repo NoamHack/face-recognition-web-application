@@ -14,5 +14,4 @@ export class SoliderMongoService {
     const newSolider = new this.soliderModel(soliderDto);
     return newSolider.save();
   }
-
 }
