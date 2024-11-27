@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SoliderDto } from '../../dto/solider.dto';
-import { addSolider } from '../../store';
+import { addSolider, addSoliderPics } from '../../store';
 import { MessageService } from 'primeng/api';
 import { SoliderPicsDto } from '../../dto/solider-pics.dto';
 
@@ -27,7 +27,10 @@ export class AddSoliderComponent {
 
   onSubmit() {
     if (this.photos[0] !== undefined) {
+      this.soliderPicsDto.soliderPersonalNumber =
+        this.soliderDto.soliderPersonalNumber;
       this.store.dispatch(addSolider(this.soliderDto));
+      this.store.dispatch(addSoliderPics(this.soliderPicsDto));
       this.resetForm();
     } else {
       this.messageService.add({
