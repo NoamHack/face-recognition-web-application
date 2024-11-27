@@ -64,7 +64,11 @@ export class UserEffects {
       this.actions$.pipe(
         ofType(addSoliderSuccess),
         tap(() => {
-          console.log('Soldier added successfully');
+          this.messageService.add({
+            icon: 'pi pi pi-check',
+            severity: 'success',
+            summary: 'Solider added successfully',
+          });
           AuthGuard.AccessUrlNavigation();
           this.router.navigate(['/login']);
         })
@@ -87,7 +91,11 @@ export class UserEffects {
             return addSoliderPicsSuccess();
           }),
           tap(() => {
-            console.log('Soldier pics added successfully');
+            this.messageService.add({
+              icon: 'pi pi-camera',
+              severity: 'success',
+              summary: 'Solider pics added successfully',
+            });
           }),
           catchError((error) => {
             console.error('Error adding soldier pics:', error);
