@@ -20,12 +20,19 @@ export class AddSoliderComponent {
   countdown = 0;
   displayDialog = false;
   displayPhotosDialog = false;
+  snd = new Audio("/3-2-1-countdown.mp3");
 
   constructor(private store: Store, private renderer: Renderer2, private messageService: MessageService) {}
 
   onSubmit() {
-    this.store.dispatch(addSolider(this.soliderDto));
-    this.resetForm();
+    if(this.photos[0] !== undefined) {
+      this.store.dispatch(addSolider(this.soliderDto));
+      this.resetForm();
+    }
+    else
+    {
+      this.messageService.add({ icon:'pi pi-camera', severity: 'error', summary: 'Photos Must Be Taken', detail: 'Please take pictures of the solider before adding a solider' });
+    }
   }
 
   resetForm() {
@@ -66,6 +73,7 @@ export class AddSoliderComponent {
       }
 
       this.countdown = 3;
+      this.snd.play();
       const countdownInterval = setInterval(() => {
         this.countdown--;
         if (this.countdown === 0) {

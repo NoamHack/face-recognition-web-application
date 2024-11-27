@@ -46,36 +46,39 @@
   [showTransformOptions]="'translateX(100%)'"
 ></p-toast>
 
-<p-dialog header="Capture Instructions" [(visible)]="displayDialog" [modal]="true" [style]="{width: '400px'}" rtl="true">
-  <div class="p-4" dir="rtl">
-    <p>אנא עקוב אחר ההוראות הבאות:</p>
+<p-dialog header="Capture Instructions" [(visible)]="displayDialog" [modal]="true" [style]="{width: '400px'}">
+  <div class="p-4">
+    <p>Please follow the instructions below:</p>
     <ul>
-      <li>ודא כי האזור בו מצולם החייל מואר כראוי.</li>
-      <li>ודא כי המצלמה קולטת את החייל.</li>
-      <li>ודא כי פניו של החייל ברורים בוודאות.</li>
-      <li>נלקחים 3 תמונות כאשר תמונה אחת היא תמונת הפנים בצורה פרונטלית,ו-2 התמונות האחרות הם פרופיל החייל משמאל ומימין.</li>
-      <li>התמונות נלקחות באינטרוול של 5 שניות מתמונה לתמונה.</li>
+      <li>Ensure that the area where the soldier is being photographed is well-lit.</li>
+      <li>Make sure the camera captures the soldier.</li>
+      <li>Ensure the soldier's face is clearly visible.</li>
+      <li>
+        3 photos will be taken: one front-facing photo of the soldier, and 2 profile photos of the soldier from the
+        left and right sides.
+      </li>
+      <li>Photos will be taken at 5-second intervals between each photo.</li>
     </ul>
   </div>
   <ng-template pTemplate="footer">
-    <button pButton label="אישור" (click)="confirmDialog()"></button>
-    <button pButton label="ביטול" (click)="closeDialog()"></button>
+    <button pButton label="OK" (click)="confirmDialog()"></button>
+    <button pButton label="Cancel" (click)="closeDialog()"></button>
   </ng-template>
 </p-dialog>
 
-<p-dialog header="Captured Photos" [(visible)]="displayPhotosDialog" [modal]="true" [style]="{width: '600px'}" rtl="true">
-  <div class="p-4" dir="rtl">
+<p-dialog header="Captured Photos" [(visible)]="displayPhotosDialog" [modal]="true" [style]="{width: '600px'}">
+  <div class="p-4">
     <div class="grid">
       <div class="col-4" *ngFor="let photo of photos">
         <img [src]="photo" alt="Captured Photo" class="w-full">
       </div>
     </div>
     <div class="mt-4">
-      <p>האם ברצונך לשמור את התמונות שצולמו או לצלם אותם מחדש?</p>
+      <p>Would you like to save the captured photos or retake them?</p>
     </div>
   </div>
   <ng-template pTemplate="footer">
-    <button pButton label="צלם מחדש" (click)="retakePhotos()"></button>
-    <button pButton label="שמור תמונות" (click)="savePhotos()"></button>
+    <button pButton label="Retake Photos" (click)="retakePhotos()"></button>
+    <button pButton label="Save Photos" (click)="savePhotos()"></button>
   </ng-template>
 </p-dialog>
