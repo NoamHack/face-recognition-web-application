@@ -10,10 +10,7 @@ import { Router } from '@angular/router';
 export class AppComponent {
   title = 'Frontend';
 
-  constructor(
-    protected router: Router
-  ) {
+  constructor(protected router: Router) {
     router.navigate(['/add'], { skipLocationChange: true });
   }
 }
-

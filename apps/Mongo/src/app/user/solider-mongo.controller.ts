@@ -1,6 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { SoliderMongoService } from './solider-mongo.service';
 import { SoliderDto } from './dto/solider.dto';
+import { SoliderPicsDto } from './dto/solider-pics.dto';
 
 @Controller('solider')
 export class SoliderMongoController {
@@ -8,7 +9,11 @@ export class SoliderMongoController {
 
   @Post()
   async createSolider(@Body() soliderDto: SoliderDto) {
-    console.log("hello")
     return this.soliderService.createSolider(soliderDto);
+  }
+
+  @Post('pics')
+  async createSoliderPics(@Body() soliderPicsDto: SoliderPicsDto) {
+    return this.soliderService.createSoliderPics(soliderPicsDto);
   }
 }

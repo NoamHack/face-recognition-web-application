@@ -5,7 +5,6 @@ export type SoliderDocument = Solider & Document;
 
 @Schema()
 export class Solider {
-
   @Prop()
   soliderFirstName: string;
 
@@ -17,7 +16,6 @@ export class Solider {
 
   @Prop()
   soliderPersonalNumber: number;
-
 }
 
 export const SoliderSchema = SchemaFactory.createForClass(Solider);

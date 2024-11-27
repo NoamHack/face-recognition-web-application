@@ -1,7 +1,7 @@
 import { Body, Controller, Post, Res } from '@nestjs/common';
-import process from 'node:process';
 import axios from 'axios';
 import { SoliderDto } from './dto/solider.dto';
+import { SoliderPicsDto } from './dto/solider-pics.dto';
 
 @Controller('solider')
 export class SoliderGatewayController {
@@ -10,17 +10,41 @@ export class SoliderGatewayController {
   @Post()
   async createSolider(@Body() soliderDto: SoliderDto, @Res() response: any) {
     try {
-      const { data } = (
-        await axios.post(`${this.mongoMicroserviceUrl}/solider`, soliderDto, {
+      const { data } = await axios.post(
+        `${this.mongoMicroserviceUrl}/solider`,
+        soliderDto,
+        {
           withCredentials: true,
-        })
-      ).data;
+        }
+      );
 
       response.json({ message: 'Solider created successfully', data });
     } catch (err) {
       response
         .status(err.response?.status || 500)
         .json({ message: 'Failed to create solider', error: err.message });
+    }
+  }
+
+  @Post('pics')
+  async createSoliderPics(
+    @Body() soliderPicsDto: SoliderPicsDto,
+    @Res() response: any
+  ) {
+    try {
+      const { data } = await axios.post(
+        `${this.mongoMicroserviceUrl}/solider/pics`,
+        soliderPicsDto,
+        {
+          withCredentials: true,
+        }
+      );
+
+      response.json({ message: 'Solider Pics created successfully', data });
+    } catch (err) {
+      response
+        .status(err.response?.status || 500)
+        .json({ message: 'Failed to create solider pics', error: err.message });
     }
   }
 }

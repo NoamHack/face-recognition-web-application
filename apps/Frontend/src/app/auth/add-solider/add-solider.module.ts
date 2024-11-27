@@ -1,16 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { RegisterComponent } from './register.component';
+import { AddSoliderComponent } from './add-solider.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonDirective } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { CheckboxModule } from 'primeng/checkbox';
 import { Ripple } from 'primeng/ripple';
 import { FormsModule } from '@angular/forms';
+import { ToastModule } from 'primeng/toast';
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
-  declarations: [RegisterComponent],
-  exports: [RegisterComponent],
+  declarations: [AddSoliderComponent],
+  exports: [AddSoliderComponent],
   imports: [
     CommonModule,
     InputTextModule,
@@ -19,7 +21,9 @@ import { FormsModule } from '@angular/forms';
     CheckboxModule,
     NgOptimizedImage,
     Ripple,
-    FormsModule
-  ]
+    FormsModule,
+    ToastModule,
+    DialogModule,
+  ],
 })
-export class RegisterModule {}
+export class AddSoliderModule {}
