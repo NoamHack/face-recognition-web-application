@@ -101,7 +101,6 @@ export class AddSoliderComponent {
 
     const imageBase64 = canvas.toDataURL('image/jpeg');
     this.photos.push(imageBase64);
-    console.log(imageBase64);
     this.messageService.add({
       icon: 'pi pi-camera',
       severity: 'success',
