@@ -26,8 +26,10 @@
           label="Capture Solider Photos"
           icon="pi pi-camera"
           class="w-full mt-2 mb-3"
-          (click)="capturePhotos()"
+          (click)="openCaptureDialog()"
         ></button>
+
+        <div *ngIf="countdown > 0" class="text-center text-2xl mb-3">{{ countdown }}</div>
 
         <canvas #canvas style="display: none;"></canvas>
 
@@ -36,3 +38,44 @@
     </form>
   </div>
 </div>
+
+<p-toast
+  [showTransformOptions]="'translateY(100%)'"
+  [showTransitionOptions]="'1000ms'"
+  [hideTransitionOptions]="'1000ms'"
+  [showTransformOptions]="'translateX(100%)'"
+></p-toast>
+
+<p-dialog header="Capture Instructions" [(visible)]="displayDialog" [modal]="true" [style]="{width: '400px'}" rtl="true">
+  <div class="p-4" dir="rtl">
+    <p>אנא עקוב אחר ההוראות הבאות:</p>
+    <ul>
+      <li>ודא כי האזור בו מצולם החייל מואר כראוי.</li>
+      <li>ודא כי המצלמה קולטת את החייל.</li>
+      <li>ודא כי פניו של החייל ברורים בוודאות.</li>
+      <li>נלקחים 3 תמונות כאשר תמונה אחת היא תמונת הפנים בצורה פרונטלית,ו-2 התמונות האחרות הם פרופיל החייל משמאל ומימין.</li>
+      <li>התמונות נלקחות באינטרוול של 5 שניות מתמונה לתמונה.</li>
+    </ul>
+  </div>
+  <ng-template pTemplate="footer">
+    <button pButton label="אישור" (click)="confirmDialog()"></button>
+    <button pButton label="ביטול" (click)="closeDialog()"></button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog header="Captured Photos" [(visible)]="displayPhotosDialog" [modal]="true" [style]="{width: '600px'}" rtl="true">
+  <div class="p-4" dir="rtl">
+    <div class="grid">
+      <div class="col-4" *ngFor="let photo of photos">
+        <img [src]="photo" alt="Captured Photo" class="w-full">
+      </div>
+    </div>
+    <div class="mt-4">
+      <p>האם ברצונך לשמור את התמונות שצולמו או לצלם אותם מחדש?</p>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <button pButton label="צלם מחדש" (click)="retakePhotos()"></button>
+    <button pButton label="שמור תמונות" (click)="savePhotos()"></button>
+  </ng-template>
+</p-dialog>

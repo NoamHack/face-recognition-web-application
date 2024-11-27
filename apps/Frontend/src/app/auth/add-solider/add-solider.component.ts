@@ -2,12 +2,13 @@ import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SoliderDto } from '../../dto/solider.dto';
 import { addSolider } from '../../store';
-
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-register',
   templateUrl: './add-solider.component.html',
   styleUrls: ['./add-solider.component.css'],
+  providers: [MessageService]
 })
 export class AddSoliderComponent {
 
@@ -16,8 +17,11 @@ export class AddSoliderComponent {
   photos: string[] = [];
   videoStream!: MediaStream;
   soliderDto: SoliderDto = new SoliderDto();
+  countdown = 0;
+  displayDialog = false;
+  displayPhotosDialog = false;
 
-  constructor(private store: Store, private renderer: Renderer2) {}
+  constructor(private store: Store, private renderer: Renderer2, private messageService: MessageService) {}
 
   onSubmit() {
     this.store.dispatch(addSolider(this.soliderDto));
@@ -57,20 +61,33 @@ export class AddSoliderComponent {
       if (photosTaken >= count) {
         clearInterval(captureInterval);
         this.stopCamera();
+        this.displayPhotosDialog = true; // Show the photos dialog after capturing
         return;
       }
 
-      canvasElement.width = video.videoWidth;
-      canvasElement.height = video.videoHeight;
-
-      context?.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
-
-      const imageBase64 = canvasElement.toDataURL('image/jpeg');
-      this.photos.push(imageBase64);
-      console.log(`Photo ${photosTaken + 1} captured.`);
-      console.log(imageBase64);
-      photosTaken++;
+      this.countdown = 3;
+      const countdownInterval = setInterval(() => {
+        this.countdown--;
+        if (this.countdown === 0) {
+          clearInterval(countdownInterval);
+          this.capturePhoto(video, canvasElement, context);
+          photosTaken++;
+          console.log(`Photo ${photosTaken} captured.`);
+        }
+      }, 1000);
     }, interval);
+  }
+
+  capturePhoto(video: HTMLVideoElement, canvas: HTMLCanvasElement, context: CanvasRenderingContext2D | null) {
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    context?.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    const imageBase64 = canvas.toDataURL('image/jpeg');
+    this.photos.push(imageBase64);
+    console.log(imageBase64);
+    this.messageService.add({ icon:'pi pi-camera', severity: 'success', summary: 'Photo Captured', detail: `Photo ${this.photos.length} captured successfully.` });
   }
 
   stopCamera() {
@@ -79,5 +96,28 @@ export class AddSoliderComponent {
       tracks.forEach((track) => track.stop());
       console.log('Camera stopped.');
     }
+  }
+
+  openCaptureDialog() {
+    this.displayDialog = true;
+  }
+
+  closeDialog() {
+    this.displayDialog = false;
+  }
+
+  confirmDialog() {
+    this.displayDialog = false;
+    this.capturePhotos();
+  }
+
+  retakePhotos() {
+    this.photos = [];
+    this.displayPhotosDialog = false;
+    this.capturePhotos();
+  }
+
+  savePhotos() {
+    this.displayPhotosDialog = false;
   }
 }

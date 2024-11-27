@@ -7,6 +7,8 @@ import { CardModule } from 'primeng/card';
 import { CheckboxModule } from 'primeng/checkbox';
 import { Ripple } from 'primeng/ripple';
 import { FormsModule } from '@angular/forms';
+import { ToastModule } from 'primeng/toast';
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
   declarations: [AddSoliderComponent],
@@ -19,7 +21,9 @@ import { FormsModule } from '@angular/forms';
     CheckboxModule,
     NgOptimizedImage,
     Ripple,
-    FormsModule
+    FormsModule,
+    ToastModule,
+    DialogModule
   ]
 })
 export class AddSoliderModule {}
