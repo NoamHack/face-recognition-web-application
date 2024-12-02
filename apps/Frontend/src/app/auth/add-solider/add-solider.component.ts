@@ -26,7 +26,11 @@ export class AddSoliderComponent {
   constructor(private store: Store, private messageService: MessageService) {}
 
   onSubmit() {
-    if (this.photos[0] !== undefined) {
+    if (
+      this.soliderPicsDto.soliderFrontPic != undefined ||
+      this.soliderPicsDto.soliderLeftProfilePic != undefined ||
+      this.soliderPicsDto.soliderRightProfilePic != undefined
+    ) {
       this.soliderPicsDto.soliderPersonalNumber =
         this.soliderDto.soliderPersonalNumber;
       this.store.dispatch(addSolider(this.soliderDto));
@@ -141,6 +145,7 @@ export class AddSoliderComponent {
     this.soliderPicsDto.soliderFrontPic = this.photos[0];
     this.soliderPicsDto.soliderRightProfilePic = this.photos[1];
     this.soliderPicsDto.soliderLeftProfilePic = this.photos[2];
+    this.photos = [];
     this.displayPhotosDialog = false;
     this.video.nativeElement.style.display = 'none';
   }
