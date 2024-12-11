@@ -22,6 +22,7 @@ export class AddSoliderComponent {
   displayDialog = false;
   displayPhotosDialog = false;
   snd = new Audio('/3-2-1-countdown.mp3');
+  isTakingPhotos = false;
 
   constructor(private store: Store, private messageService: MessageService) {}
 
@@ -48,6 +49,7 @@ export class AddSoliderComponent {
 
   resetForm() {
     this.soliderDto = new SoliderDto();
+    this.soliderPicsDto = new SoliderPicsDto();
   }
 
   async capturePhotos() {
@@ -59,11 +61,15 @@ export class AddSoliderComponent {
         (resolve) => (this.video.nativeElement.onloadedmetadata = resolve)
       );
       this.video.nativeElement.play();
-      this.video.nativeElement.style.display = 'block';
-
       this.takePhotos(this.video.nativeElement, 3, 5000);
     } catch (error) {
       console.error('Error capturing photos:', error);
+      this.isTakingPhotos = false;
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Failed to access camera',
+      });
     }
   }
 
@@ -76,7 +82,7 @@ export class AddSoliderComponent {
       if (photosTaken >= count) {
         clearInterval(captureInterval);
         this.stopCamera();
-        this.displayPhotosDialog = true; // Show the photos dialog after capturing
+        this.displayPhotosDialog = true;
         return;
       }
 
@@ -98,10 +104,11 @@ export class AddSoliderComponent {
     canvas: HTMLCanvasElement,
     context: CanvasRenderingContext2D | null
   ) {
+    if (!context) return;
+
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
-
-    context?.drawImage(video, 0, 0, canvas.width, canvas.height);
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
     const imageBase64 = canvas.toDataURL('image/jpeg');
     this.photos.push(imageBase64);
@@ -117,7 +124,8 @@ export class AddSoliderComponent {
     if (this.videoStream) {
       const tracks = this.videoStream.getTracks();
       tracks.forEach((track) => track.stop());
-      this.video.nativeElement.style.display = 'none';
+      this.isTakingPhotos = false;
+      this.video.nativeElement.srcObject = null;
     }
   }
 
@@ -127,9 +135,11 @@ export class AddSoliderComponent {
 
   closeDialog() {
     this.displayDialog = false;
+    this.stopCamera();
   }
 
   confirmDialog() {
+    this.isTakingPhotos = true;
     this.displayDialog = false;
     this.capturePhotos();
   }
@@ -137,16 +147,17 @@ export class AddSoliderComponent {
   retakePhotos() {
     this.photos = [];
     this.displayPhotosDialog = false;
-    this.video.nativeElement.style.display = 'none';
+    this.stopCamera();
+    this.isTakingPhotos = true;
     this.capturePhotos();
   }
 
   savePhotos() {
+    this.stopCamera();
     this.soliderPicsDto.soliderFrontPic = this.photos[0];
     this.soliderPicsDto.soliderRightProfilePic = this.photos[1];
     this.soliderPicsDto.soliderLeftProfilePic = this.photos[2];
     this.photos = [];
     this.displayPhotosDialog = false;
-    this.video.nativeElement.style.display = 'none';
   }
 }
