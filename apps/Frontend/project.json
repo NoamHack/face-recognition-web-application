@@ -19,11 +19,15 @@
           {
             "glob": "**/*",
             "input": "apps/Frontend/public"
+          },
+          {
+            "glob": "**/*",
+            "input": "node_modules/primeng/resources/themes",
+            "output": "assets/themes"
           }
         ],
         "styles": [
           "apps/Frontend/src/styles.css",
-          "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
           "node_modules/primeng/resources/primeng.min.css"
         ],
         "scripts": [],

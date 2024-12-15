@@ -21,6 +21,8 @@ import { UserEffects, userFeature } from './store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { environment } from '../environment.production';
 import { SoliderService } from './services';
+import { ThemeSwitcherModule } from './theme-switcher/theme-switcher.module';
+import { ThemeService } from './services/theme/theme.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,6 +36,7 @@ import { SoliderService } from './services';
     StoreModule.forRoot(),
     StoreModule.forFeature(userFeature),
     EffectsModule.forRoot([UserEffects]),
+    ThemeSwitcherModule,
   ],
   providers: [
     provideClientHydration(),
@@ -42,6 +45,7 @@ import { SoliderService } from './services';
     provideStoreDevtools({ maxAge: 25, logOnly: environment.production }),
     MessageService,
     SoliderService,
+    ThemeService,
   ],
   bootstrap: [AppComponent],
 })

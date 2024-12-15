@@ -1,0 +1,14 @@
+:host {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+}
+
+:host ::ng-deep .p-speeddial-button {
+  width: 4rem;
+  height: 4rem;
+}
+
+:host ::ng-deep .p-speeddial-button .p-button-icon {
+  font-size: 1.5rem;
+}
