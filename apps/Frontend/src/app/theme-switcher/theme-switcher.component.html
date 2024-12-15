@@ -1,14 +1,13 @@
 <div class="card flex justify-content-center">
   <p-speedDial
     [model]="items"
-    direction="up"
-    [radius]="80"
-    type="quarter-circle"
+    direction="left"
+    type="linear"
+    [transitionDelay]="80"
     buttonClassName="p-button-warning"
     [showIcon]="'pi pi-palette'"
     [hideIcon]="'pi pi-times'"
-    [transitionDelay]="80"
     ngSkipHydration
-    [style]="{'position': 'relative'}"
+    [style]="{'position': 'fixed', 'right': '20px', 'top': '20px'}"
   ></p-speedDial>
 </div>
