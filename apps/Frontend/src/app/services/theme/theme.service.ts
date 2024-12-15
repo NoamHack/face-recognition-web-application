@@ -40,12 +40,12 @@ export class ThemeService {
   setTheme(theme: Theme) {
     const themeLink = document.getElementById('app-theme') as HTMLLinkElement;
     if (themeLink) {
-      themeLink.href = `node_modules/primeng/resources/themes/${theme.file}/theme.css`;
+      themeLink.href = `assets/themes/${theme.file}/theme.css`;
     } else {
       const link = document.createElement('link');
       link.id = 'app-theme';
       link.rel = 'stylesheet';
-      link.href = `node_modules/primeng/resources/themes/${theme.file}/theme.css`;
+      link.href = `assets/themes/${theme.file}/theme.css`;
       document.head.appendChild(link);
     }
     localStorage.setItem('theme', theme.file);
