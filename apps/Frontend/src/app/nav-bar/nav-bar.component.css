@@ -1,0 +1,10 @@
+:host ::ng-deep {
+  .p-menubar {
+    padding: 0.5rem;
+    background: #f8f9fa;
+
+    .p-menubar-root-list {
+      margin-left: 1rem;
+    }
+  }
+}

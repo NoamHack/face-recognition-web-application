@@ -1,14 +1,21 @@
-:host {
-  position: fixed;
-  bottom: 16px;
-  right: 16px;
+.theme-switcher-container {
+  margin-top: 10px;
 }
 
 :host ::ng-deep .p-speeddial-button {
   width: 4rem;
   height: 4rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff9800, #ffc107);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+:host ::ng-deep .p-speeddial-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
 :host ::ng-deep .p-speeddial-button .p-button-icon {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
 }
