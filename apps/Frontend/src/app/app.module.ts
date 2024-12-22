@@ -23,6 +23,7 @@ import { environment } from '../environment.production';
 import { SoliderService } from './services';
 import { ThemeSwitcherModule } from './theme-switcher/theme-switcher.module';
 import { ThemeService } from './services/theme/theme.service';
+import { NavBarModule } from './nav-bar/nav-bar.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -37,6 +38,7 @@ import { ThemeService } from './services/theme/theme.service';
     StoreModule.forFeature(userFeature),
     EffectsModule.forRoot([UserEffects]),
     ThemeSwitcherModule,
+    NavBarModule,
   ],
   providers: [
     provideClientHydration(),
