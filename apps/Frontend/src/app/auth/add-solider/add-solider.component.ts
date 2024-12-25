@@ -28,9 +28,10 @@ export class AddSoliderComponent {
 
   onSubmit() {
     if (
-      this.soliderPicsDto.soliderFrontPic != undefined ||
-      this.soliderPicsDto.soliderLeftProfilePic != undefined ||
-      this.soliderPicsDto.soliderRightProfilePic != undefined
+      this.soliderPicsDto.soliderFrontPic1 != undefined ||
+      this.soliderPicsDto.soliderFrontPic2 != undefined ||
+      this.soliderPicsDto.soliderFrontPic3 != undefined ||
+      this.soliderPicsDto.soliderFrontPic4 != undefined
     ) {
       this.soliderPicsDto.soliderPersonalNumber =
         this.soliderDto.soliderPersonalNumber;
@@ -61,7 +62,7 @@ export class AddSoliderComponent {
         (resolve) => (this.video.nativeElement.onloadedmetadata = resolve)
       );
       this.video.nativeElement.play();
-      this.takePhotos(this.video.nativeElement, 3, 5000);
+      this.takePhotos(this.video.nativeElement, 4, 5000);
     } catch (error) {
       console.error('Error capturing photos:', error);
       this.isTakingPhotos = false;
@@ -125,7 +126,6 @@ export class AddSoliderComponent {
       const tracks = this.videoStream.getTracks();
       tracks.forEach((track) => track.stop());
       this.isTakingPhotos = false;
-      this.video.nativeElement.srcObject = null;
     }
   }
 
@@ -154,9 +154,10 @@ export class AddSoliderComponent {
 
   savePhotos() {
     this.stopCamera();
-    this.soliderPicsDto.soliderFrontPic = this.photos[0];
-    this.soliderPicsDto.soliderRightProfilePic = this.photos[1];
-    this.soliderPicsDto.soliderLeftProfilePic = this.photos[2];
+    this.soliderPicsDto.soliderFrontPic1 = this.photos[0];
+    this.soliderPicsDto.soliderFrontPic2 = this.photos[1];
+    this.soliderPicsDto.soliderFrontPic3 = this.photos[2];
+    this.soliderPicsDto.soliderFrontPic4 = this.photos[2];
     this.photos = [];
     this.displayPhotosDialog = false;
   }

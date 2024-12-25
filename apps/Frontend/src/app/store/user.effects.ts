@@ -82,9 +82,10 @@ export class UserEffects {
       switchMap((action) => {
         const soliderPicsDto: SoliderPicsDto = {
           soliderPersonalNumber: action.soliderPersonalNumber,
-          soliderFrontPic: action.soliderFrontPic,
-          soliderLeftProfilePic: action.soliderLeftProfilePic,
-          soliderRightProfilePic: action.soliderRightProfilePic,
+          soliderFrontPic1: action.soliderFrontPic1,
+          soliderFrontPic2: action.soliderFrontPic2,
+          soliderFrontPic3: action.soliderFrontPic3,
+          soliderFrontPic4: action.soliderFrontPic4,
         };
         return from(this.soliderService.addSoliderPics(soliderPicsDto)).pipe(
           map(() => {
