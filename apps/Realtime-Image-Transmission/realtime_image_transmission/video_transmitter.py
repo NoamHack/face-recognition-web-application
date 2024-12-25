@@ -33,6 +33,7 @@ def response(data):
 def send_video():
   while True:
     ret, frame = cap.read()
+    frame = frame[120:120 + 250, 200:200 + 250, :]
     if not ret:
       break
 
