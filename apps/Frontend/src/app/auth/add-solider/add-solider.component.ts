@@ -12,8 +12,8 @@ import { SoliderPicsDto } from '../../dto/solider-pics.dto';
   providers: [MessageService],
 })
 export class AddSoliderComponent {
-  @ViewChild('video') video!: ElementRef;
-  @ViewChild('canvas') canvas!: ElementRef;
+  @ViewChild('video') video!: ElementRef<HTMLVideoElement>;
+  @ViewChild('canvas') canvas!: ElementRef<HTMLCanvasElement>;
   photos: string[] = [];
   videoStream!: MediaStream;
   soliderDto: SoliderDto = new SoliderDto();
@@ -55,11 +55,20 @@ export class AddSoliderComponent {
 
   async capturePhotos() {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const constraints = {
+        video: {
+          width: { ideal: 640 },
+          height: { ideal: 480 },
+          facingMode: 'user',
+        },
+      };
+
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
       this.videoStream = stream;
       this.video.nativeElement.srcObject = stream;
-      await new Promise(
-        (resolve) => (this.video.nativeElement.onloadedmetadata = resolve)
+      await new Promise<void>(
+        (resolve) =>
+          (this.video.nativeElement.onloadedmetadata = () => resolve())
       );
       this.video.nativeElement.play();
       this.takePhotos(this.video.nativeElement, 4, 5000);
@@ -107,9 +116,22 @@ export class AddSoliderComponent {
   ) {
     if (!context) return;
 
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    // Set canvas size to our desired crop dimensions
+    canvas.width = 250;
+    canvas.height = 250;
+
+    // Draw only the cropped region
+    context.drawImage(
+      video,
+      200, // Start X position to crop from
+      120, // Start Y position to crop from
+      250, // Width of the crop
+      250, // Height of the crop
+      0, // Destination X on canvas
+      0, // Destination Y on canvas
+      250, // Destination width
+      250 // Destination height
+    );
 
     const imageBase64 = canvas.toDataURL('image/jpeg');
     this.photos.push(imageBase64);
@@ -157,8 +179,17 @@ export class AddSoliderComponent {
     this.soliderPicsDto.soliderFrontPic1 = this.photos[0];
     this.soliderPicsDto.soliderFrontPic2 = this.photos[1];
     this.soliderPicsDto.soliderFrontPic3 = this.photos[2];
-    this.soliderPicsDto.soliderFrontPic4 = this.photos[2];
+    this.soliderPicsDto.soliderFrontPic4 = this.photos[3];
     this.photos = [];
     this.displayPhotosDialog = false;
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Photos Saved',
+      detail: 'All photos have been saved successfully.',
+    });
+  }
+
+  ngOnDestroy() {
+    this.stopCamera();
   }
 }
