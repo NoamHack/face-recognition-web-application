@@ -9,21 +9,8 @@ authors = [ ]
 license = "Proprietary"
 readme = "README.md"
 
-  [[tool.poetry.source]]
-  name = "pypi-public"
-  url = "https://pypi.org/simple/"
-  default = true
-
-[tool.poetry.dependencies]
-  python = ">=3.10, <3.11"
-  matplotlib = "^3.9.2"
-  requests = "^2.32.3"
-  numpy = ">=1.26.0,<2.1.0"
-pymongo = "^4.10.1"
-
-    [tool.poetry.dependencies.python-socketio]
-    extras = [ "client" ]
-    version = "^5.11.4"
+  [tool.poetry.dependencies]
+  python = ">=3.9,<3.12"
 
     [tool.poetry.dependencies.PyPackages]
     path = "apps/Realtime-Image-Transmission"

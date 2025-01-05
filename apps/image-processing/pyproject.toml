@@ -3,7 +3,7 @@ branch = true
 source = [ "image_processing" ]
 
 [tool.coverage.report]
-exclude_lines = ['if TYPE_CHECKING:']
+exclude_lines = [ "if TYPE_CHECKING:" ]
 show_missing = true
 
 [tool.pytest.ini_options]
@@ -14,17 +14,20 @@ name = "apps"
 version = "1.0.0"
 description = ""
 authors = [ ]
-license = 'Proprietary'
-readme = 'README.md'
+license = "Proprietary"
+readme = "README.md"
 
   [[tool.poetry.packages]]
   include = "image_processing"
 
   [tool.poetry.dependencies]
-  python = ">=3.8,<3.11"
+  tensorflow-io-gcs-filesystem = "0.31.0"
+  tensorflow = "2.15.0"
 
-  
+    [tool.poetry.dependencies.tensorflow-intel]
+    version = "^2.15.0"
+    platform = "win32"
 
 [build-system]
-requires = ["poetry-core==1.1.0"]
+requires = [ "poetry-core==1.1.0" ]
 build-backend = "poetry.core.masonry.api"
