@@ -33,7 +33,7 @@
     "serve": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "poetry run python ./apps/image-processing/image_processing/index.py"
+        "command": "poetry run python ./apps/image-processing/image_processing/face_recognition.py"
       }
     },
     "build": {
