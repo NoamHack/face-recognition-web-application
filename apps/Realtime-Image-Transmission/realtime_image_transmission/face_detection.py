@@ -1,4 +1,5 @@
 import cv2
+import socket_handler
 
 HAARCASCADE_PATH = ('apps/Realtime-Image-Transmission/realtime_image_transmission/scripts'
                     '/haarcascade_frontalface_default.xml')
@@ -11,8 +12,17 @@ def face_detection_draw_rectangle(frame):
                                         flags=cv2.CASCADE_SCALE_IMAGE)
 
   for (x, y, w, h) in faces:
-    cv2.rectangle(frame, (x - 50, y - 50), (x + w + 50, y + h + 50), (255, 0, 0), 2)
-    
+    cv2.rectangle(frame, (x - 50, y - 50), (x + w + 55, y + h + 55), (255, 0, 0), 2)
+
+    start_y = max(y - 50, 0)
+    start_x = max(x - 50, 0)
+    end_y = min(y + h + 50, frame.shape[0])
+    end_x = min(x + w + 50, frame.shape[1])
+
+    face_region = frame[start_y:end_y, start_x:end_x]
+
+    socket_handler.send_frame_to_socket(face_region)
+
   return frame
 
 

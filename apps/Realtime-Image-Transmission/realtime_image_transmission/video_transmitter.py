@@ -6,7 +6,7 @@ import face_detection
 
 sio = socketio.Client()
 cap = cv2.VideoCapture(0)  # 0 for default webcam
-fps = 30
+fps = 10
 
 @sio.event
 def connect():

@@ -1,12 +1,11 @@
 import os
 import uuid
-import tensorflow as tf
 import mongo_connection
 import cv2
-import random
-import numpy as np
-from matplotlib import pyplot as plt
+from tensorflow import keras
+import tensorflow as tf
 import data_augmentation
+import socket_handler
 
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
@@ -35,3 +34,5 @@ for file_name in os.listdir(os.path.join(POS_PATH)):
 
   for image in augmented_images:
     cv2.imwrite(os.path.join(POS_PATH, '{}.jpg'.format(uuid.uuid1())), image.numpy())
+
+socket_handler.start_socket_server()
