@@ -1,9 +1,11 @@
 import tensorflow as tf
 import numpy as np
 
+number_of_augmentations = 9
+
 def data_aug(img):
   data = []
-  for i in range(9):
+  for i in range(number_of_augmentations):
     img = tf.image.stateless_random_brightness(img, max_delta=0.02, seed=(1, 2))
     img = tf.image.stateless_random_contrast(img, lower=0.6, upper=1, seed=(1, 3))
     # img = tf.image.stateless_random_crop(img, size=(20,20,3), seed=(1,2))

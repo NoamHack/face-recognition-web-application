@@ -1,5 +1,12 @@
 import os
+import uuid
 import tensorflow as tf
+import mongo_connection
+import cv2
+import random
+import numpy as np
+from matplotlib import pyplot as plt
+import data_augmentation
 
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
@@ -13,8 +20,18 @@ if gpus:
       print(f"Could not set memory growth for GPU: {e}")
 
 # Generate paths
-POS_PATH = os.path.join('data', 'positive')
-NEG_PATH = os.path.join('data', 'negative')
-ANC_PATH = os.path.join('data', 'anchor')
+current_dir = os.getcwd()
 
-print("hello")
+ANC_PATH = os.path.join(current_dir, 'apps', 'image-processing', 'image_processing', 'data', 'anchor')
+POS_PATH = os.path.join(current_dir, 'apps', 'image-processing', 'image_processing', 'data', 'positive')
+NEG_PATH = os.path.join(current_dir, 'apps', 'image-processing', 'image_processing', 'data', 'negative')
+
+mongo_connection.add_positives_from_mongo()
+
+for file_name in os.listdir(os.path.join(POS_PATH)):
+  img_path = os.path.join(POS_PATH, file_name)
+  img = cv2.imread(img_path)
+  augmented_images = data_augmentation.data_aug(img)
+
+  for image in augmented_images:
+    cv2.imwrite(os.path.join(POS_PATH, '{}.jpg'.format(uuid.uuid1())), image.numpy())
