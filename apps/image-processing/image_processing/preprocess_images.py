@@ -3,9 +3,9 @@ import tensorflow as tf
 
 current_dir = os.getcwd()
 
-ANC_PATH = os.path.join(current_dir, 'data', 'anchor')
-POS_PATH = os.path.join(current_dir, 'data', 'positive')
-NEG_PATH = os.path.join(current_dir, 'data', 'negative')
+ANC_PATH = os.path.join(current_dir, 'apps', 'image-processing', 'image_processing', 'data', 'anchor')
+POS_PATH = os.path.join(current_dir, 'apps', 'image-processing', 'image_processing', 'data', 'positive')
+NEG_PATH = os.path.join(current_dir, 'apps', 'image-processing', 'image_processing', 'data', 'negative')
 
 
 def load_datasets_and_create_partitions(number_of_images):
@@ -33,6 +33,7 @@ def load_datasets_and_create_partitions(number_of_images):
   test_data = test_data.batch(16)
   test_data = test_data.prefetch(8)
 
+  return train_data, test_data
 
 def preprocess(file_path):
   # Read in image from file path
@@ -51,4 +52,3 @@ def preprocess(file_path):
 
 def preprocess_twin(input_img, validation_img, label):
   return preprocess(input_img), preprocess(validation_img), label
-

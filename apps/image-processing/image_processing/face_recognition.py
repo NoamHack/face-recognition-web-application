@@ -4,8 +4,10 @@ import tensorflow as tf
 import data_augmentation
 import socket_handler
 import preprocess_images
+import model_training
 
 number_of_images = 10
+EPOCHS = 50
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
 gpus = tf.config.experimental.list_physical_devices('GPU')
@@ -22,6 +24,8 @@ mongo_connection.add_positives_from_mongo()
 
 data_augmentation.data_augment_positive_directory()
 
-socket_handler.start_socket_server()
+#socket_handler.start_socket_server()
 
-preprocess_images.load_datasets_and_create_partitions(number_of_images)
+train_data, test_data = preprocess_images.load_datasets_and_create_partitions(number_of_images)
+
+model_training.train(train_data, EPOCHS)

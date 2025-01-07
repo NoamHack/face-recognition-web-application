@@ -24,6 +24,8 @@ export class AddSoliderComponent {
   snd = new Audio('/3-2-1-countdown.mp3');
   isTakingPhotos = false;
 
+  numberOfPhotos = 4;
+
   constructor(private store: Store, private messageService: MessageService) {}
 
   onSubmit() {
@@ -71,7 +73,7 @@ export class AddSoliderComponent {
           (this.video.nativeElement.onloadedmetadata = () => resolve())
       );
       this.video.nativeElement.play();
-      this.takePhotos(this.video.nativeElement, 4, 5000);
+      this.takePhotos(this.video.nativeElement, this.numberOfPhotos, 5000);
     } catch (error) {
       console.error('Error capturing photos:', error);
       this.isTakingPhotos = false;
