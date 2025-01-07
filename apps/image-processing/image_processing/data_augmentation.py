@@ -1,9 +1,16 @@
+import os
+import uuid
+import cv2
 import tensorflow as tf
 import numpy as np
 
-number_of_augmentations = 9
+number_of_augmentations = 10
+current_dir = os.getcwd()
 
-def data_aug(img):
+POS_PATH = os.path.join(current_dir, 'apps', 'image-processing', 'image_processing', 'data', 'positive')
+
+
+def data_augmentation(img):
   data = []
   for i in range(number_of_augmentations):
     img = tf.image.stateless_random_brightness(img, max_delta=0.02, seed=(1, 2))
@@ -18,3 +25,14 @@ def data_aug(img):
     data.append(img)
 
   return data
+
+
+def data_augment_positive_directory():
+  for file_name in os.listdir(os.path.join(POS_PATH)):
+    img_path = os.path.join(POS_PATH, file_name)
+    img = cv2.imread(img_path)
+    augmented_images = data_augmentation(img)
+
+    for image in augmented_images:
+      cv2.imwrite(os.path.join(POS_PATH, '{}.jpg'.format(uuid.uuid1())), image.numpy())
+

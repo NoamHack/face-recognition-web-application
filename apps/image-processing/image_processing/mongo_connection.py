@@ -1,5 +1,4 @@
 import uuid
-
 from pymongo import MongoClient
 import os
 import base64
