@@ -11,7 +11,7 @@ def strip_data_url_prefix(base64_str):
   return base64_str
 
 
-def add_positives_from_mongo():
+def add_positives_and_anchors_from_mongo():
   try:
     # Connect to MongoDB
     client = MongoClient('mongodb://localhost:27017/')
@@ -21,7 +21,9 @@ def add_positives_from_mongo():
     current_dir = os.getcwd()
 
     POS_PATH = os.path.join(current_dir, 'apps', 'image-processing', 'image_processing', 'data', 'positive')
+    ANC_PATH = os.path.join(current_dir, 'apps', 'image-processing', 'image_processing', 'data', 'anchor')
     os.makedirs(POS_PATH, exist_ok=True)
+    os.makedirs(ANC_PATH, exist_ok=True)
     print(f"Saving images in: {POS_PATH}")
 
     # Connect to database and collection
@@ -36,41 +38,77 @@ def add_positives_from_mongo():
 
     # Save each soldier picture
     for doc in results:
-      # Save soliderFrontPic1
-      if 'soliderFrontPic1' in doc and doc['soliderFrontPic1']:
-        base64_str = strip_data_url_prefix(doc['soliderFrontPic1'])
+      # Save soliderPositivePic1
+      if 'soliderPositivePic1' in doc and doc['soliderPositivePic1']:
+        base64_str = strip_data_url_prefix(doc['soliderPositivePic1'])
         img_data = base64.b64decode(base64_str)
         file_path = os.path.join(POS_PATH, '{}.jpg'.format(uuid.uuid1()))
         with open(file_path, 'wb') as f:
           f.write(img_data)
         saved_count += 1
 
-      # Save soliderFrontPic2
-      if 'soliderFrontPic2' in doc and doc['soliderFrontPic2']:
-        base64_str = strip_data_url_prefix(doc['soliderFrontPic2'])
+      # Save soliderPositivePic2
+      if 'soliderPositivePic2' in doc and doc['soliderPositivePic2']:
+        base64_str = strip_data_url_prefix(doc['soliderPositivePic2'])
         img_data = base64.b64decode(base64_str)
         file_path = os.path.join(POS_PATH, '{}.jpg'.format(uuid.uuid1()))
         with open(file_path, 'wb') as f:
           f.write(img_data)
         saved_count += 1
 
-      # Save soliderFrontPic3
-      if 'soliderFrontPic3' in doc and doc['soliderFrontPic3']:
-        base64_str = strip_data_url_prefix(doc['soliderFrontPic3'])
+      # Save soliderPositivePic3
+      if 'soliderPositivePic3' in doc and doc['soliderPositivePic3']:
+        base64_str = strip_data_url_prefix(doc['soliderPositivePic3'])
         img_data = base64.b64decode(base64_str)
         file_path = os.path.join(POS_PATH, '{}.jpg'.format(uuid.uuid1()))
         with open(file_path, 'wb') as f:
           f.write(img_data)
         saved_count += 1
 
-      # Save soliderFrontPic4
-      if 'soliderFrontPic4' in doc and doc['soliderFrontPic4']:
-        base64_str = strip_data_url_prefix(doc['soliderFrontPic4'])
+      # Save soliderPositivePic4
+      if 'soliderPositivePic4' in doc and doc['soliderPositivePic4']:
+        base64_str = strip_data_url_prefix(doc['soliderPositivePic4'])
         img_data = base64.b64decode(base64_str)
         file_path = os.path.join(POS_PATH, '{}.jpg'.format(uuid.uuid1()))
         with open(file_path, 'wb') as f:
           f.write(img_data)
         saved_count += 1
+
+        # Save soliderAnchorPic1
+        if 'soliderAnchorPic1' in doc and doc['soliderAnchorPic1']:
+          base64_str = strip_data_url_prefix(doc['soliderAnchorPic1'])
+          img_data = base64.b64decode(base64_str)
+          file_path = os.path.join(ANC_PATH, '{}.jpg'.format(uuid.uuid1()))
+          with open(file_path, 'wb') as f:
+            f.write(img_data)
+          saved_count += 1
+
+        # Save soliderAnchorPic2
+        if 'soliderAnchorPic2' in doc and doc['soliderAnchorPic2']:
+          base64_str = strip_data_url_prefix(doc['soliderAnchorPic2'])
+          img_data = base64.b64decode(base64_str)
+          file_path = os.path.join(ANC_PATH, '{}.jpg'.format(uuid.uuid1()))
+          with open(file_path, 'wb') as f:
+            f.write(img_data)
+          saved_count += 1
+
+        # Save soliderAnchorPic3
+        if 'soliderAnchorPic3' in doc and doc['soliderAnchorPic3']:
+          base64_str = strip_data_url_prefix(doc['soliderAnchorPic3'])
+          img_data = base64.b64decode(base64_str)
+          file_path = os.path.join(ANC_PATH, '{}.jpg'.format(uuid.uuid1()))
+          with open(file_path, 'wb') as f:
+            f.write(img_data)
+          saved_count += 1
+
+        # Save soliderAnchorPic4
+        if 'soliderAnchorPic4' in doc and doc['soliderAnchorPic4']:
+          base64_str = strip_data_url_prefix(doc['soliderAnchorPic4'])
+          img_data = base64.b64decode(base64_str)
+          file_path = os.path.join(ANC_PATH, '{}.jpg'.format(uuid.uuid1()))
+          with open(file_path, 'wb') as f:
+            f.write(img_data)
+          saved_count += 1
 
     print(f"Successfully saved {saved_count} soldier pictures")
 

@@ -24,16 +24,20 @@ export class AddSoliderComponent {
   snd = new Audio('/3-2-1-countdown.mp3');
   isTakingPhotos = false;
 
-  numberOfPhotos = 4;
+  numberOfPhotos = 8;
 
   constructor(private store: Store, private messageService: MessageService) {}
 
   onSubmit() {
     if (
-      this.soliderPicsDto.soliderFrontPic1 != undefined ||
-      this.soliderPicsDto.soliderFrontPic2 != undefined ||
-      this.soliderPicsDto.soliderFrontPic3 != undefined ||
-      this.soliderPicsDto.soliderFrontPic4 != undefined
+      this.soliderPicsDto.soliderPositivePic1 != undefined ||
+      this.soliderPicsDto.soliderPositivePic2 != undefined ||
+      this.soliderPicsDto.soliderPositivePic3 != undefined ||
+      this.soliderPicsDto.soliderPositivePic4 != undefined ||
+      this.soliderPicsDto.soliderAnchorPic1 != undefined ||
+      this.soliderPicsDto.soliderAnchorPic2 != undefined ||
+      this.soliderPicsDto.soliderAnchorPic3 != undefined ||
+      this.soliderPicsDto.soliderAnchorPic4 != undefined
     ) {
       this.soliderPicsDto.soliderPersonalNumber =
         this.soliderDto.soliderPersonalNumber;
@@ -178,10 +182,14 @@ export class AddSoliderComponent {
 
   savePhotos() {
     this.stopCamera();
-    this.soliderPicsDto.soliderFrontPic1 = this.photos[0];
-    this.soliderPicsDto.soliderFrontPic2 = this.photos[1];
-    this.soliderPicsDto.soliderFrontPic3 = this.photos[2];
-    this.soliderPicsDto.soliderFrontPic4 = this.photos[3];
+    this.soliderPicsDto.soliderPositivePic1 = this.photos[0];
+    this.soliderPicsDto.soliderPositivePic2 = this.photos[1];
+    this.soliderPicsDto.soliderPositivePic3 = this.photos[2];
+    this.soliderPicsDto.soliderPositivePic4 = this.photos[3];
+    this.soliderPicsDto.soliderAnchorPic1 = this.photos[4];
+    this.soliderPicsDto.soliderAnchorPic2 = this.photos[5];
+    this.soliderPicsDto.soliderAnchorPic3 = this.photos[6];
+    this.soliderPicsDto.soliderAnchorPic4 = this.photos[7];
     this.photos = [];
     this.displayPhotosDialog = false;
     this.messageService.add({

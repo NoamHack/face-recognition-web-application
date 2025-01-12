@@ -6,7 +6,7 @@ import socket_handler
 import preprocess_images
 import model_training
 
-number_of_images = 10
+number_of_images = 30
 EPOCHS = 50
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
@@ -20,9 +20,11 @@ if gpus:
       print(f"Could not set memory growth for GPU: {e}")
 
 
-mongo_connection.add_positives_from_mongo()
+mongo_connection.add_positives_and_anchors_from_mongo()
 
 data_augmentation.data_augment_positive_directory()
+
+data_augmentation.data_augment_anchor_directory()
 
 #socket_handler.start_socket_server()
 

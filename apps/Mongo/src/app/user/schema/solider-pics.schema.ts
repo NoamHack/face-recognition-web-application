@@ -9,16 +9,28 @@ export class SoliderPics {
   soliderPersonalNumber: number;
 
   @Prop()
-  soliderFrontPic1: string;
+  soliderPositivePic1: string;
 
   @Prop()
-  soliderFrontPic2: string;
+  soliderPositivePic2: string;
 
   @Prop()
-  soliderFrontPic3: string;
+  soliderPositivePic3: string;
 
   @Prop()
-  soliderFrontPic4: string;
+  soliderPositivePic4: string;
+
+  @Prop()
+  soliderAnchorPic1: string;
+
+  @Prop()
+  soliderAnchorPic2: string;
+
+  @Prop()
+  soliderAnchorPic3: string;
+
+  @Prop()
+  soliderAnchorPic4: string;
 }
 
 export const SoliderPicsSchema = SchemaFactory.createForClass(SoliderPics);
