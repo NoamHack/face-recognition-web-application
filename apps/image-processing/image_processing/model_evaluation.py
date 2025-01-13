@@ -6,32 +6,7 @@ import model_engineering
 
 def evaluate_model(test_data):
   # Initialize model
-  siamese_model = model_engineering.make_siamese_model()
-
-  # Load the latest checkpoint
-  checkpoint_dir = './apps/image-processing/image_processing/training_checkpoints'
-  opt = tf.keras.optimizers.Adam(1e-4)
-
-  checkpoint = tf.train.Checkpoint(
-    epoch=tf.Variable(1),
-    optimizer=opt,
-    siamese_model=siamese_model
-  )
-
-  # Create checkpoint manager
-  manager = tf.train.CheckpointManager(
-    checkpoint,
-    checkpoint_dir,
-    max_to_keep=3
-  )
-
-  # Restore the latest checkpoint
-  if manager.latest_checkpoint:
-    checkpoint.restore(manager.latest_checkpoint)
-    print(f"Model restored from checkpoint: {manager.latest_checkpoint}")
-  else:
-    print("No checkpoint found. Please train the model first.")
-    return
+  siamese_model = model_engineering.load_model_from_checkpoint()
 
   # Initialize metrics
   recall = Recall()

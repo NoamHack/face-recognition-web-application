@@ -52,4 +52,22 @@ def make_siamese_model():
 
   return Model(inputs=[input_image, validation_image], outputs=classifier, name='SiameseNetwork')
 
+def load_model_from_checkpoint():
+  siamese_model = make_siamese_model()  # You need to import this from your model definition
+
+  checkpoint_dir = './apps/image-processing/image_processing/model/training_checkpoints'
+  checkpoint = tf.train.Checkpoint(siamese_model=siamese_model)
+
+  manager = tf.train.CheckpointManager(
+    checkpoint,
+    checkpoint_dir,
+    max_to_keep=3
+  )
+
+  if manager.latest_checkpoint:
+    checkpoint.restore(manager.latest_checkpoint)
+    print(f"Model restored from checkpoint: {manager.latest_checkpoint}")
+    return siamese_model
+  else:
+    raise Exception("No checkpoint found. Please train the model first.")
 

@@ -6,6 +6,8 @@ import socket_handler
 import preprocess_images
 import model_training
 import model_evaluation
+import model_engineering
+import solider_verification
 
 number_of_images = 30
 EPOCHS = 50
@@ -29,9 +31,14 @@ if gpus:
 
 #socket_handler.start_socket_server()
 
-train_data, test_data = preprocess_images.load_datasets_and_create_partitions(number_of_images)
+#train_data, test_data = preprocess_images.load_datasets_and_create_partitions(number_of_images)
 
-model_training.train(train_data, EPOCHS)
+#model_training.train(train_data, EPOCHS)
 
-model_evaluation.evaluate_model(test_data)
+#model_evaluation.evaluate_model(test_data)
 
+model = model_engineering.load_model_from_checkpoint()
+
+result, verify = solider_verification.verify(model, 0.5, 0.5)
+
+print(verify, result)

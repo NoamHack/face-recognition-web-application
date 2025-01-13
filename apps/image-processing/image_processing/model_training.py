@@ -9,7 +9,7 @@ siamese_model = model_engineering.make_siamese_model()
 binary_cross_loss = tf.losses.BinaryCrossentropy()
 opt = tf.keras.optimizers.Adam(1e-4)  # 0.0001
 
-checkpoint_dir = './apps/image-processing/image_processing/training_checkpoints'
+checkpoint_dir = './apps/image-processing/image_processing/model/training_checkpoints'
 if not os.path.exists(checkpoint_dir):
   os.makedirs(checkpoint_dir)
 
