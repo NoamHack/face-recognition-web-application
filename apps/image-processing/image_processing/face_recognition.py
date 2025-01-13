@@ -5,6 +5,7 @@ import data_augmentation
 import socket_handler
 import preprocess_images
 import model_training
+import model_evaluation
 
 number_of_images = 30
 EPOCHS = 50
@@ -20,14 +21,17 @@ if gpus:
       print(f"Could not set memory growth for GPU: {e}")
 
 
-mongo_connection.add_positives_and_anchors_from_mongo()
+#mongo_connection.add_positives_and_anchors_from_mongo()
 
-data_augmentation.data_augment_positive_directory()
+#data_augmentation.data_augment_positive_directory()
 
-data_augmentation.data_augment_anchor_directory()
+#data_augmentation.data_augment_anchor_directory()
 
 #socket_handler.start_socket_server()
 
 train_data, test_data = preprocess_images.load_datasets_and_create_partitions(number_of_images)
 
 model_training.train(train_data, EPOCHS)
+
+model_evaluation.evaluate_model(test_data)
+
