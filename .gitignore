@@ -45,3 +45,5 @@ negative
 positive
 training_checkpoints
 .angular
+verification_image
+input_image

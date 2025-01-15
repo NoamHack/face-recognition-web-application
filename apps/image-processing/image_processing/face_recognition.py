@@ -23,11 +23,11 @@ if gpus:
       print(f"Could not set memory growth for GPU: {e}")
 
 
-#mongo_connection.add_positives_and_anchors_from_mongo()
+mongo_connection.add_positives_anchors_and_verification_from_mongo()
 
-#data_augmentation.data_augment_positive_directory()
+data_augmentation.data_augment_positive_directory()
 
-#data_augmentation.data_augment_anchor_directory()
+data_augmentation.data_augment_anchor_directory()
 
 #socket_handler.start_socket_server()
 
@@ -37,8 +37,8 @@ if gpus:
 
 #model_evaluation.evaluate_model(test_data)
 
-model = model_engineering.load_model_from_checkpoint()
+#model = model_engineering.load_model_from_checkpoint()
 
-result, verify = solider_verification.verify(model, 0.5, 0.5)
+#result, verify = solider_verification.verify(model, 0.5, 0.5)
 
-print(verify, result)
+#print(verify, result)

@@ -3,15 +3,20 @@ from pymongo import MongoClient
 import os
 import base64
 
-
 def strip_data_url_prefix(base64_str):
   if base64_str and isinstance(base64_str, str):
     if 'data:image/jpeg;base64,' in base64_str:
       return base64_str.replace('data:image/jpeg;base64,', '')
   return base64_str
 
+def ensure_directories_with_permissions(directories):
+  for directory in directories:
+    if not os.path.exists(directory):
+      os.makedirs(directory, exist_ok=True)
+    os.chmod(directory, 0o777)  # Give full permissions
 
-def add_positives_and_anchors_from_mongo():
+def add_positives_anchors_and_verification_from_mongo():
+  client = None
   try:
     # Connect to MongoDB
     client = MongoClient('mongodb://localhost:27017/')
@@ -19,12 +24,13 @@ def add_positives_and_anchors_from_mongo():
 
     # Set up paths
     current_dir = os.getcwd()
-
     POS_PATH = os.path.join(current_dir, 'apps', 'image-processing', 'image_processing', 'data', 'positive')
     ANC_PATH = os.path.join(current_dir, 'apps', 'image-processing', 'image_processing', 'data', 'anchor')
-    os.makedirs(POS_PATH, exist_ok=True)
-    os.makedirs(ANC_PATH, exist_ok=True)
-    print(f"Saving images in: {POS_PATH}")
+    VER_PATH = os.path.join(current_dir, 'apps', 'image-processing', 'image_processing', 'data', 'verification_image')
+
+    # Ensure directories exist with proper permissions
+    ensure_directories_with_permissions([POS_PATH, ANC_PATH, VER_PATH])
+    print(f"Saving images in: {POS_PATH} {ANC_PATH}")
 
     # Connect to database and collection
     db = client["test"]
@@ -38,75 +44,40 @@ def add_positives_and_anchors_from_mongo():
 
     # Save each soldier picture
     for doc in results:
-      # Save soliderPositivePic1
-      if 'soliderPositivePic1' in doc and doc['soliderPositivePic1']:
-        base64_str = strip_data_url_prefix(doc['soliderPositivePic1'])
-        img_data = base64.b64decode(base64_str)
-        file_path = os.path.join(POS_PATH, '{}.jpg'.format(uuid.uuid1()))
-        with open(file_path, 'wb') as f:
-          f.write(img_data)
-        saved_count += 1
+      if 'soliderPersonalNumber' in doc and doc['soliderPersonalNumber']:
+        solider_verification_dir = os.path.join(VER_PATH, str(doc['soliderPersonalNumber']))
+        os.makedirs(solider_verification_dir, exist_ok=True)
+        os.chmod(solider_verification_dir, 0o777)
 
-      # Save soliderPositivePic2
-      if 'soliderPositivePic2' in doc and doc['soliderPositivePic2']:
-        base64_str = strip_data_url_prefix(doc['soliderPositivePic2'])
-        img_data = base64.b64decode(base64_str)
-        file_path = os.path.join(POS_PATH, '{}.jpg'.format(uuid.uuid1()))
-        with open(file_path, 'wb') as f:
-          f.write(img_data)
-        saved_count += 1
-
-      # Save soliderPositivePic3
-      if 'soliderPositivePic3' in doc and doc['soliderPositivePic3']:
-        base64_str = strip_data_url_prefix(doc['soliderPositivePic3'])
-        img_data = base64.b64decode(base64_str)
-        file_path = os.path.join(POS_PATH, '{}.jpg'.format(uuid.uuid1()))
-        with open(file_path, 'wb') as f:
-          f.write(img_data)
-        saved_count += 1
-
-      # Save soliderPositivePic4
-      if 'soliderPositivePic4' in doc and doc['soliderPositivePic4']:
-        base64_str = strip_data_url_prefix(doc['soliderPositivePic4'])
-        img_data = base64.b64decode(base64_str)
-        file_path = os.path.join(POS_PATH, '{}.jpg'.format(uuid.uuid1()))
-        with open(file_path, 'wb') as f:
-          f.write(img_data)
-        saved_count += 1
-
-        # Save soliderAnchorPic1
-        if 'soliderAnchorPic1' in doc and doc['soliderAnchorPic1']:
-          base64_str = strip_data_url_prefix(doc['soliderAnchorPic1'])
+      # Process positive pictures
+      for i in range(1, 5):
+        pic_key = f'soliderPositivePic{i}'
+        if pic_key in doc and doc[pic_key]:
+          base64_str = strip_data_url_prefix(doc[pic_key])
           img_data = base64.b64decode(base64_str)
-          file_path = os.path.join(ANC_PATH, '{}.jpg'.format(uuid.uuid1()))
-          with open(file_path, 'wb') as f:
+
+          # Save to positive path
+          pos_file_path = os.path.join(POS_PATH, f'{uuid.uuid1()}.jpg')
+          with open(pos_file_path, 'wb') as f:
             f.write(img_data)
           saved_count += 1
 
-        # Save soliderAnchorPic2
-        if 'soliderAnchorPic2' in doc and doc['soliderAnchorPic2']:
-          base64_str = strip_data_url_prefix(doc['soliderAnchorPic2'])
-          img_data = base64.b64decode(base64_str)
-          file_path = os.path.join(ANC_PATH, '{}.jpg'.format(uuid.uuid1()))
-          with open(file_path, 'wb') as f:
+          # Save to verification path
+          ver_file_path = os.path.join(solider_verification_dir, f'{uuid.uuid1()}.jpg')
+          with open(ver_file_path, 'wb') as f:
             f.write(img_data)
           saved_count += 1
 
-        # Save soliderAnchorPic3
-        if 'soliderAnchorPic3' in doc and doc['soliderAnchorPic3']:
-          base64_str = strip_data_url_prefix(doc['soliderAnchorPic3'])
+      # Process anchor pictures
+      for i in range(1, 5):
+        pic_key = f'soliderAnchorPic{i}'
+        if pic_key in doc and doc[pic_key]:
+          base64_str = strip_data_url_prefix(doc[pic_key])
           img_data = base64.b64decode(base64_str)
-          file_path = os.path.join(ANC_PATH, '{}.jpg'.format(uuid.uuid1()))
-          with open(file_path, 'wb') as f:
-            f.write(img_data)
-          saved_count += 1
 
-        # Save soliderAnchorPic4
-        if 'soliderAnchorPic4' in doc and doc['soliderAnchorPic4']:
-          base64_str = strip_data_url_prefix(doc['soliderAnchorPic4'])
-          img_data = base64.b64decode(base64_str)
-          file_path = os.path.join(ANC_PATH, '{}.jpg'.format(uuid.uuid1()))
-          with open(file_path, 'wb') as f:
+          # Save to anchor path
+          anc_file_path = os.path.join(ANC_PATH, f'{uuid.uuid1()}.jpg')
+          with open(anc_file_path, 'wb') as f:
             f.write(img_data)
           saved_count += 1
 
@@ -115,8 +86,7 @@ def add_positives_and_anchors_from_mongo():
   except Exception as e:
     print(f"Error: {e}")
     import traceback
-    traceback.print_exc()  # This will print the full error trace
+    traceback.print_exc()
   finally:
     if client:
       client.close()
-
