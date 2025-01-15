@@ -4,7 +4,7 @@ import cv2
 import tensorflow as tf
 import numpy as np
 
-number_of_augmentations = 10
+number_of_augmentations = 9
 current_dir = os.getcwd()
 
 POS_PATH = os.path.join(current_dir, 'apps', 'image-processing', 'image_processing', 'data', 'positive')

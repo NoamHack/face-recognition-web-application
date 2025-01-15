@@ -9,8 +9,7 @@ import model_evaluation
 import model_engineering
 import solider_verification
 
-number_of_images = 30
-EPOCHS = 50
+EPOCHS = 10
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
 gpus = tf.config.experimental.list_physical_devices('GPU')
@@ -23,22 +22,22 @@ if gpus:
       print(f"Could not set memory growth for GPU: {e}")
 
 
-mongo_connection.add_positives_anchors_and_verification_from_mongo()
-
-data_augmentation.data_augment_positive_directory()
-
-data_augmentation.data_augment_anchor_directory()
+# mongo_connection.add_positives_anchors_and_verification_from_mongo()
+#
+# data_augmentation.data_augment_positive_directory()
+#
+# data_augmentation.data_augment_anchor_directory()
 
 #socket_handler.start_socket_server()
 
-#train_data, test_data = preprocess_images.load_datasets_and_create_partitions(number_of_images)
+# train_data, test_data = preprocess_images.load_datasets_and_create_partitions()
+#
+# model_training.train(train_data, EPOCHS)
+#
+# model_evaluation.evaluate_model(test_data)
 
-#model_training.train(train_data, EPOCHS)
+model = model_engineering.load_model_from_checkpoint()
 
-#model_evaluation.evaluate_model(test_data)
+name ,result, verify = solider_verification.verify(model, 0.5, 0.5)
 
-#model = model_engineering.load_model_from_checkpoint()
-
-#result, verify = solider_verification.verify(model, 0.5, 0.5)
-
-#print(verify, result)
+print(name, verify, result)
