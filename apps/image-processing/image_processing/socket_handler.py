@@ -1,17 +1,21 @@
 import socket
 import cv2
 import os
-import data_augmentation
-import uuid
 import pickle
+import model_engineering
+import solider_verification
 
+model = model_engineering.load_model_from_checkpoint()
 
 def start_socket_server():
   HOST = '127.0.0.1'
-  PORT = 65433
+  PORT = 65432
 
   current_dir = os.getcwd()
-  ANC_PATH = os.path.join(current_dir, 'apps', 'image-processing', 'image_processing', 'data', 'anchor')
+  INP_PATH = os.path.join(current_dir, 'apps', 'image-processing', 'image_processing', 'data', 'input_image')
+
+  # Ensure the input_image directory exists
+  os.makedirs(INP_PATH, exist_ok=True)
 
   server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
   server_socket.bind((HOST, PORT))
@@ -36,11 +40,12 @@ def start_socket_server():
 
       frame_data = pickle.loads(data)
 
-      augmented_images = data_augmentation.data_aug(frame_data)
+      input_image_path = os.path.join(INP_PATH, 'input_image.jpg')
+      cv2.imwrite(input_image_path, frame_data)
 
-      for image in augmented_images:
-        output_path = os.path.join(ANC_PATH, f'{uuid.uuid1()}.jpg')
-        cv2.imwrite(output_path, image.numpy())
+      name, result, verify = solider_verification.verify(model, 0.5, 0.5)
+
+      print(name, verify, result)
 
       conn.sendall(b"OK")
 

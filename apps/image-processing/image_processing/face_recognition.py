@@ -28,7 +28,7 @@ if gpus:
 #
 # data_augmentation.data_augment_anchor_directory()
 
-#socket_handler.start_socket_server()
+socket_handler.start_socket_server()
 
 # train_data, test_data = preprocess_images.load_datasets_and_create_partitions()
 #

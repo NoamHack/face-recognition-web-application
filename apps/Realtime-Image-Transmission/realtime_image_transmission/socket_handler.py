@@ -5,7 +5,7 @@ import time
 
 def send_frame_to_socket(face_region):
   HOST = '127.0.0.1'
-  PORT = 65433
+  PORT = 65432
 
   client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
   try:
