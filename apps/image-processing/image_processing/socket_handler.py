@@ -54,7 +54,7 @@ def start_socket_server():
       input_image_path = os.path.join(INP_PATH, 'input_image.jpg')
       cv2.imwrite(input_image_path, frame_data)
 
-      name, result, verify = solider_verification.verify(model, 0.5, 0.5)
+      name, result, verify = solider_verification.verify(model, 0.9, 0.9)
       print(f"Prediction Results - Name: {name}, Verify: {verify}, Result: {result}")
 
       conn.sendall(b"OK")

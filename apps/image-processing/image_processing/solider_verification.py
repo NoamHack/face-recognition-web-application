@@ -52,11 +52,14 @@ def verify(model, detection_threshold, verification_threshold):
         # Convert results to numpy array for calculations
         results = np.array(results).squeeze()
 
-        # Calculate average similarity score
-        average_score = np.mean(results)
+        # Detection Threshold: Metric above which a prediction is considered positive
+        detection = float(np.sum(results))
+        print(detection)
 
-        # Verify if average score is above the verification threshold
-        verified = average_score > verification_threshold
+        # Verification Threshold: Proportion of positive predictions / total positive samples
+        verification = detection / len(verification_images)
+        verified = verification > verification_threshold
+        print(verification)
 
         if verified:
           print(f"Match found in directory: {soldier_dir}")
