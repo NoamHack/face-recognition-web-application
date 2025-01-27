@@ -4,23 +4,29 @@ import os
 import pickle
 import model_engineering
 import solider_verification
+import time
 
-model = model_engineering.load_model_from_checkpoint()
 
 def start_socket_server():
+  model = model_engineering.load_model_from_checkpoint()
+
   HOST = '127.0.0.1'
   PORT = 65432
 
   current_dir = os.getcwd()
-  INP_PATH = os.path.join(current_dir, 'apps', 'image-processing', 'image_processing', 'data', 'input_image')
-
-  # Ensure the input_image directory exists
+  INP_PATH = os.path.join(
+    current_dir,
+    'apps',
+    'image-processing',
+    'image_processing',
+    'data',
+    'input_image'
+  )
   os.makedirs(INP_PATH, exist_ok=True)
 
   server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
   server_socket.bind((HOST, PORT))
   server_socket.listen()
-
   print(f"Server listening on {HOST}:{PORT}")
 
   while True:
@@ -28,7 +34,13 @@ def start_socket_server():
     print(f"Connected by {addr}")
 
     try:
+      # Receive data size
       data_size = conn.recv(4)
+      if not data_size:
+        conn.sendall(b"ERROR")
+        conn.close()
+        continue
+
       size = int.from_bytes(data_size, byteorder='big')
 
       data = b""
@@ -39,19 +51,18 @@ def start_socket_server():
         data += packet
 
       frame_data = pickle.loads(data)
-
       input_image_path = os.path.join(INP_PATH, 'input_image.jpg')
       cv2.imwrite(input_image_path, frame_data)
 
       name, result, verify = solider_verification.verify(model, 0.5, 0.5)
-
-      print(name, verify, result)
+      print(f"Prediction Results - Name: {name}, Verify: {verify}, Result: {result}")
 
       conn.sendall(b"OK")
 
-    except Exception as e:
-      print(f"Error: {e}")
-      conn.sendall(b"ERROR")
+      time.sleep(1)
 
+    except Exception as e:
+      print(f"Error processing frame: {e}")
+      conn.sendall(b"ERROR")
     finally:
       conn.close()

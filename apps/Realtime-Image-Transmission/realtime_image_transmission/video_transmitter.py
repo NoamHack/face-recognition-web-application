@@ -1,35 +1,29 @@
 import socketio
 import cv2
 import base64
-import numpy as np
 import face_detection
-import socket_handler
 
 sio = socketio.Client()
-cap = cv2.VideoCapture(0)  # 0 for default webcam
+cap = cv2.VideoCapture(0)
 fps = 10
 
 @sio.event
 def connect():
-  print('Connection established')
+  print("Connection established")
   send_video()
-
 
 @sio.event
 def connect_error(data):
-  print('Connection failed')
-
+  print("Connection failed")
 
 @sio.event
 def disconnect():
-  print('Disconnected from server')
+  print("Disconnected from server")
   cap.release()
-
 
 @sio.event
 def response(data):
-  print('Received response from server:', data)
-
+  print("Received response from server:", data)
 
 def send_video():
   while True:
@@ -38,20 +32,13 @@ def send_video():
       break
 
     frame = cv2.flip(frame, 1)
-
     frame = face_detection.face_detection_draw_rectangle(frame)
 
     _, buffer = cv2.imencode('.jpg', frame)
-
-    socket_handler.send_frame_to_socket(frame)
-
     frame_base64 = base64.b64encode(buffer).decode('utf-8')
-
     sio.emit('frame', frame_base64)
 
-
     cv2.waitKey(1000 // fps)
-
 
 sio.connect('http://localhost:3000')
 sio.wait()
