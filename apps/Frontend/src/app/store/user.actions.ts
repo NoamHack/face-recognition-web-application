@@ -21,9 +21,14 @@ export const addSoliderPics = createAction(
   '[Solider Pics] Add Solider Pics',
   props<{
     soliderPersonalNumber: number;
-    soliderFrontPic: string;
-    soliderLeftProfilePic: string;
-    soliderRightProfilePic: string;
+    soliderPositivePic1: string;
+    soliderPositivePic2: string;
+    soliderPositivePic3: string;
+    soliderPositivePic4: string;
+    soliderAnchorPic1: string;
+    soliderAnchorPic2: string;
+    soliderAnchorPic3: string;
+    soliderAnchorPic4: string;
   }>()
 );
 

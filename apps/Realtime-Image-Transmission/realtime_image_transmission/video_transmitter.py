@@ -3,10 +3,11 @@ import cv2
 import base64
 import numpy as np
 import face_detection
+import socket_handler
 
 sio = socketio.Client()
 cap = cv2.VideoCapture(0)  # 0 for default webcam
-fps = 30
+fps = 10
 
 @sio.event
 def connect():
@@ -42,9 +43,12 @@ def send_video():
 
     _, buffer = cv2.imencode('.jpg', frame)
 
+    socket_handler.send_frame_to_socket(frame)
+
     frame_base64 = base64.b64encode(buffer).decode('utf-8')
 
     sio.emit('frame', frame_base64)
+
 
     cv2.waitKey(1000 // fps)
 

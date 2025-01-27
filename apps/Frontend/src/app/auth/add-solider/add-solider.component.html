@@ -77,24 +77,16 @@
           (click)="openCaptureDialog()"
         ></button>
 
-        <div class="flex justify-content-center align-items-center p-4" *ngIf="isTakingPhotos">
-          <div
-            class="surface-card p-4 shadow-2 border-round"
-            style="width: 400px"
-          >
-            <div
-              *ngIf="countdown > 0"
-              class="text-center text-4xl font-bold text-900 mb-3"
-            >
+        <div class="video-container" *ngIf="isTakingPhotos">
+          <div class="surface-card p-4 shadow-2 border-round" style="width: 640px">
+            <div *ngIf="countdown > 0" class="text-center text-4xl font-bold text-900 mb-3">
               {{ countdown }}
             </div>
-            <video
-              #video
-              autoplay
-              muted
-              style="width: 100%; height: auto"
-            ></video>
-            <canvas #canvas style="display: none"></canvas>
+            <div style="position: relative;">
+              <video #video [width]="640" [height]="480" autoplay muted></video>
+              <div class="crop-marker"></div>
+            </div>
+            <canvas #canvas style="display: none" [width]="250" [height]="250"></canvas>
           </div>
         </div>
 

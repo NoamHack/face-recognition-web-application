@@ -7,13 +7,33 @@ export class SoliderPicsDto {
 
   @IsString()
   @IsNotEmpty()
-  soliderFrontPic!: string;
+  soliderPositivePic1!: string;
 
   @IsString()
   @IsNotEmpty()
-  soliderLeftProfilePic!: string;
+  soliderPositivePic2!: string;
 
   @IsString()
   @IsNotEmpty()
-  soliderRightProfilePic!: string;
+  soliderPositivePic3!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  soliderPositivePic4!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  soliderAnchorPic1!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  soliderAnchorPic2!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  soliderAnchorPic3!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  soliderAnchorPic4!: string;
 }

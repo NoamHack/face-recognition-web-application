@@ -12,8 +12,8 @@ import { SoliderPicsDto } from '../../dto/solider-pics.dto';
   providers: [MessageService],
 })
 export class AddSoliderComponent {
-  @ViewChild('video') video!: ElementRef;
-  @ViewChild('canvas') canvas!: ElementRef;
+  @ViewChild('video') video!: ElementRef<HTMLVideoElement>;
+  @ViewChild('canvas') canvas!: ElementRef<HTMLCanvasElement>;
   photos: string[] = [];
   videoStream!: MediaStream;
   soliderDto: SoliderDto = new SoliderDto();
@@ -24,13 +24,20 @@ export class AddSoliderComponent {
   snd = new Audio('/3-2-1-countdown.mp3');
   isTakingPhotos = false;
 
+  numberOfPhotos = 8;
+
   constructor(private store: Store, private messageService: MessageService) {}
 
   onSubmit() {
     if (
-      this.soliderPicsDto.soliderFrontPic != undefined ||
-      this.soliderPicsDto.soliderLeftProfilePic != undefined ||
-      this.soliderPicsDto.soliderRightProfilePic != undefined
+      this.soliderPicsDto.soliderPositivePic1 != undefined ||
+      this.soliderPicsDto.soliderPositivePic2 != undefined ||
+      this.soliderPicsDto.soliderPositivePic3 != undefined ||
+      this.soliderPicsDto.soliderPositivePic4 != undefined ||
+      this.soliderPicsDto.soliderAnchorPic1 != undefined ||
+      this.soliderPicsDto.soliderAnchorPic2 != undefined ||
+      this.soliderPicsDto.soliderAnchorPic3 != undefined ||
+      this.soliderPicsDto.soliderAnchorPic4 != undefined
     ) {
       this.soliderPicsDto.soliderPersonalNumber =
         this.soliderDto.soliderPersonalNumber;
@@ -54,14 +61,23 @@ export class AddSoliderComponent {
 
   async capturePhotos() {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const constraints = {
+        video: {
+          width: { ideal: 640 },
+          height: { ideal: 480 },
+          facingMode: 'user',
+        },
+      };
+
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
       this.videoStream = stream;
       this.video.nativeElement.srcObject = stream;
-      await new Promise(
-        (resolve) => (this.video.nativeElement.onloadedmetadata = resolve)
+      await new Promise<void>(
+        (resolve) =>
+          (this.video.nativeElement.onloadedmetadata = () => resolve())
       );
       this.video.nativeElement.play();
-      this.takePhotos(this.video.nativeElement, 3, 5000);
+      this.takePhotos(this.video.nativeElement, this.numberOfPhotos, 5000);
     } catch (error) {
       console.error('Error capturing photos:', error);
       this.isTakingPhotos = false;
@@ -106,9 +122,22 @@ export class AddSoliderComponent {
   ) {
     if (!context) return;
 
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    // Set canvas size to our desired crop dimensions
+    canvas.width = 250;
+    canvas.height = 250;
+
+    // Draw only the cropped region
+    context.drawImage(
+      video,
+      200, // Start X position to crop from
+      120, // Start Y position to crop from
+      250, // Width of the crop
+      250, // Height of the crop
+      0, // Destination X on canvas
+      0, // Destination Y on canvas
+      250, // Destination width
+      250 // Destination height
+    );
 
     const imageBase64 = canvas.toDataURL('image/jpeg');
     this.photos.push(imageBase64);
@@ -125,7 +154,6 @@ export class AddSoliderComponent {
       const tracks = this.videoStream.getTracks();
       tracks.forEach((track) => track.stop());
       this.isTakingPhotos = false;
-      this.video.nativeElement.srcObject = null;
     }
   }
 
@@ -154,10 +182,24 @@ export class AddSoliderComponent {
 
   savePhotos() {
     this.stopCamera();
-    this.soliderPicsDto.soliderFrontPic = this.photos[0];
-    this.soliderPicsDto.soliderRightProfilePic = this.photos[1];
-    this.soliderPicsDto.soliderLeftProfilePic = this.photos[2];
+    this.soliderPicsDto.soliderPositivePic1 = this.photos[0];
+    this.soliderPicsDto.soliderPositivePic2 = this.photos[1];
+    this.soliderPicsDto.soliderPositivePic3 = this.photos[2];
+    this.soliderPicsDto.soliderPositivePic4 = this.photos[3];
+    this.soliderPicsDto.soliderAnchorPic1 = this.photos[4];
+    this.soliderPicsDto.soliderAnchorPic2 = this.photos[5];
+    this.soliderPicsDto.soliderAnchorPic3 = this.photos[6];
+    this.soliderPicsDto.soliderAnchorPic4 = this.photos[7];
     this.photos = [];
     this.displayPhotosDialog = false;
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Photos Saved',
+      detail: 'All photos have been saved successfully.',
+    });
+  }
+
+  ngOnDestroy() {
+    this.stopCamera();
   }
 }

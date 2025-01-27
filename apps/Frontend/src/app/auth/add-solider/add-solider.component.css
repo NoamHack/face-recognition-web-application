@@ -1,0 +1,16 @@
+.video-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.crop-marker {
+  position: absolute;
+  left: 200px;
+  top: 120px;
+  width: 250px;
+  height: 250px;
+  border: 2px solid red;
+  pointer-events: none;
+}
