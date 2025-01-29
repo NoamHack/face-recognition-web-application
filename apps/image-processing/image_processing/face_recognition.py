@@ -9,6 +9,7 @@ import model_evaluation
 import model_engineering
 import solider_verification
 
+
 EPOCHS = 10
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
@@ -27,17 +28,11 @@ if gpus:
 # data_augmentation.data_augment_positive_directory()
 #
 # data_augmentation.data_augment_anchor_directory()
-
-socket_handler.start_socket_server()
 #
-# train_data, test_data = preprocess_images.load_datasets_and_create_partitions()
+train_data, test_data = preprocess_images.load_datasets_and_create_partitions()
 #
 # model_training.train(train_data, EPOCHS)
 #
 # model_evaluation.evaluate_model(test_data)
 
-# model = model_engineering.load_model_from_checkpoint()
-#
-# name, result, verify = solider_verification.verify(model, 0.75, 0.75)
-#
-# print(name, verify, result)
+# socket_handler.start_socket_server()

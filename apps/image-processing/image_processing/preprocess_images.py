@@ -9,7 +9,7 @@ NEG_PATH = os.path.join(current_dir, 'apps', 'image-processing', 'image_processi
 
 
 def load_datasets_and_create_partitions():
-  number_of_images = int(len([name for name in os.listdir(POS_PATH)]) / 30) * 30
+  number_of_images = int(len([name for name in os.listdir(POS_PATH)]))
   print(number_of_images)
   anchor = tf.data.Dataset.list_files(ANC_PATH + '\*.jpg').take(number_of_images)
   positive = tf.data.Dataset.list_files(POS_PATH + '\*.jpg').take(number_of_images)
