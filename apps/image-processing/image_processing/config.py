@@ -27,3 +27,5 @@ class variables():
 
   HOST = '127.0.0.1'
   PORT = 65432
+
+  FRAMES_TO_SKIP = 60
