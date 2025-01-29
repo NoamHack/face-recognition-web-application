@@ -7,15 +7,15 @@ import solider_verification
 import time
 import config
 
+# Initialize the model
+model = model_engineering.load_model_from_checkpoint()
+
+# Server configuration
+HOST = config.variables.HOST
+PORT = config.variables.PORT
+INP_PATH = config.variables.INP_PATH
 
 def start_socket_server():
-  # Initialize the model
-  model = model_engineering.load_model_from_checkpoint()
-
-  # Server configuration
-  HOST = config.variables.HOST
-  PORT = config.variables.PORT
-  INP_PATH = config.variables.INP_PATH
   os.makedirs(INP_PATH, exist_ok=True)
 
   # Frame processing configuration
