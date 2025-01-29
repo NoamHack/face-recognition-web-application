@@ -5,23 +5,15 @@ import pickle
 import model_engineering
 import solider_verification
 import time
-
+import config
 
 def start_socket_server():
   model = model_engineering.load_model_from_checkpoint()
 
-  HOST = '127.0.0.1'
-  PORT = 65432
+  HOST = config.variables.HOST
+  PORT = config.variables.PORT
 
-  current_dir = os.getcwd()
-  INP_PATH = os.path.join(
-    current_dir,
-    'apps',
-    'image-processing',
-    'image_processing',
-    'data',
-    'input_image'
-  )
+  INP_PATH = config.variables.INP_PATH
   os.makedirs(INP_PATH, exist_ok=True)
 
   server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -54,7 +46,8 @@ def start_socket_server():
       input_image_path = os.path.join(INP_PATH, 'input_image.jpg')
       cv2.imwrite(input_image_path, frame_data)
 
-      name, result, verify = solider_verification.verify(model, 0.9, 0.9)
+      name, result, verify = solider_verification.verify(model, config.variables.detection_threshold,
+                                                         config.variables.verification_threshold)
       print(f"Prediction Results - Name: {name}, Verify: {verify}, Result: {result}")
 
       conn.sendall(b"OK")

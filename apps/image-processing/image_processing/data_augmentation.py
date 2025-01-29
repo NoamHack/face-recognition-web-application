@@ -3,19 +3,20 @@ import uuid
 import cv2
 import tensorflow as tf
 import numpy as np
+import config
 
-number_of_augmentations = 9
+number_of_augmentations = config.variables.number_of_augmentations
 current_dir = os.getcwd()
 
-POS_PATH = os.path.join(current_dir, 'apps', 'image-processing', 'image_processing', 'data', 'positive')
-ANC_PATH = os.path.join(current_dir, 'apps', 'image-processing', 'image_processing', 'data', 'anchor')
+POS_PATH = config.variables.POS_PATH
+ANC_PATH = config.variables.ANC_PATH
 
 def data_augmentation(img):
   data = []
   for i in range(number_of_augmentations):
     img = tf.image.stateless_random_brightness(img, max_delta=0.02, seed=(1, 2))
     img = tf.image.stateless_random_contrast(img, lower=0.6, upper=1, seed=(1, 3))
-    # img = tf.image.stateless_random_crop(img, size=(20,20,3), seed=(1,2))
+    img = tf.image.stateless_random_crop(img, size=(20, 20, 3), seed=(1, 2))
     img = tf.image.stateless_random_flip_left_right(img, seed=(np.random.randint(100), np.random.randint(100)))
     img = tf.image.stateless_random_jpeg_quality(img, min_jpeg_quality=90, max_jpeg_quality=100,
                                                  seed=(np.random.randint(100), np.random.randint(100)))

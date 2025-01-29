@@ -3,13 +3,11 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras.preprocessing import image
 import preprocess_images
-
+import config
 
 def verify(model, detection_threshold, verification_threshold):
-  current_dir = os.getcwd()
-  INPUT_IMAGES_PATH = os.path.join(current_dir, 'apps', 'image-processing', 'image_processing', 'data', 'input_image')
-  VERIFICATION_IMAGES_PATH = os.path.join(current_dir, 'apps', 'image-processing', 'image_processing', 'data',
-                                          'verification_image')
+  INPUT_IMAGES_PATH = config.variables.INP_PATH
+  VERIFICATION_IMAGES_PATH = config.variables.VERIFICATION_IMAGES_PATH
 
   try:
     # Get the input image

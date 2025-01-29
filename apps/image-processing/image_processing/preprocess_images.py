@@ -1,11 +1,12 @@
 import os
 import tensorflow as tf
+import config
 
 current_dir = os.getcwd()
 
-ANC_PATH = os.path.join(current_dir, 'apps', 'image-processing', 'image_processing', 'data', 'anchor')
-POS_PATH = os.path.join(current_dir, 'apps', 'image-processing', 'image_processing', 'data', 'positive')
-NEG_PATH = os.path.join(current_dir, 'apps', 'image-processing', 'image_processing', 'data', 'negative')
+ANC_PATH = config.variables.ANC_PATH
+POS_PATH = config.variables.POS_PATH
+NEG_PATH = config.variables.NEG_PATH
 
 
 def load_datasets_and_create_partitions():

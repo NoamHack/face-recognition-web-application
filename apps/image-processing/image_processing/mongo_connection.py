@@ -2,6 +2,7 @@ import uuid
 from pymongo import MongoClient
 import os
 import base64
+import config
 
 def strip_data_url_prefix(base64_str):
   if base64_str and isinstance(base64_str, str):
@@ -19,22 +20,22 @@ def add_positives_anchors_and_verification_from_mongo():
   client = None
   try:
     # Connect to MongoDB
-    client = MongoClient('mongodb://localhost:27017/')
+    client = MongoClient(config.variables.mongo_url)
     print("Connected to MongoDB")
 
     # Set up paths
     current_dir = os.getcwd()
-    POS_PATH = os.path.join(current_dir, 'apps', 'image-processing', 'image_processing', 'data', 'positive')
-    ANC_PATH = os.path.join(current_dir, 'apps', 'image-processing', 'image_processing', 'data', 'anchor')
-    VER_PATH = os.path.join(current_dir, 'apps', 'image-processing', 'image_processing', 'data', 'verification_image')
+    POS_PATH = config.variables.POS_PATH
+    ANC_PATH = config.variables.ANC_PATH
+    VER_PATH = config.variables.VERIFICATION_IMAGES_PATH
 
     # Ensure directories exist with proper permissions
     ensure_directories_with_permissions([POS_PATH, ANC_PATH, VER_PATH])
     print(f"Saving images in: {POS_PATH} {ANC_PATH}")
 
     # Connect to database and collection
-    db = client["test"]
-    collection = db["soliderpics"]
+    db = client[config.variables.mongo_client]
+    collection = db[config.variables.mongo_collection]
 
     # Get results from MongoDB
     results = collection.find()

@@ -3,13 +3,14 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.metrics import Precision, Recall
 import tensorflow as tf
 import model_engineering
+import config
 
 siamese_model = model_engineering.make_siamese_model()
 
 binary_cross_loss = tf.losses.BinaryCrossentropy()
 opt = tf.keras.optimizers.Adam(1e-4)  # 0.0001
 
-checkpoint_dir = './apps/image-processing/image_processing/model/training_checkpoints'
+checkpoint_dir = config.variables.checkpoint_dir
 if not os.path.exists(checkpoint_dir):
   os.makedirs(checkpoint_dir)
 
