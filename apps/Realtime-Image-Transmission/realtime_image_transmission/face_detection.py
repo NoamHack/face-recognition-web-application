@@ -1,16 +1,26 @@
 import cv2
 import socket_handler
 
-HAARCASCADE_PATH = ('apps/Realtime-Image-Transmission/realtime_image_transmission/scripts'
-                    '/haarcascade_frontalface_default.xml')
+HAARCASCADE_PATH = (
+  'apps/Realtime-Image-Transmission/realtime_image_transmission/scripts/'
+  'haarcascade_frontalface_default.xml'
+)
 
+face_cascade = cv2.CascadeClassifier(HAARCASCADE_PATH)
+
+def detect_faces(frame):
+  gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+  faces = face_cascade.detectMultiScale(
+    gray_frame,
+    scaleFactor=1.1,
+    minNeighbors=5,
+    minSize=(30, 30),
+    flags=cv2.CASCADE_SCALE_IMAGE
+  )
+  return faces
 
 def face_detection_draw_rectangle(frame):
-  face_cascade = cv2.CascadeClassifier(HAARCASCADE_PATH)
-  gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-  faces = face_cascade.detectMultiScale(gray_frame, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30),
-                                        flags=cv2.CASCADE_SCALE_IMAGE)
-
+  faces = detect_faces(frame)
   for (x, y, w, h) in faces:
     cv2.rectangle(frame, (x - 50, y - 50), (x + w + 55, y + h + 55), (255, 0, 0), 2)
 
@@ -20,21 +30,12 @@ def face_detection_draw_rectangle(frame):
     end_x = min(x + w + 50, frame.shape[1])
 
     face_region = frame[start_y:end_y, start_x:end_x]
-
     socket_handler.send_frame_to_socket(face_region)
-
   return frame
 
-
 def face_detection_crop(frame):
-  face_cascade = cv2.CascadeClassifier(HAARCASCADE_PATH)
-  gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-  faces = face_cascade.detectMultiScale(gray_frame, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30),
-                                        flags=cv2.CASCADE_SCALE_IMAGE)
-
-  cropped_faces = []
-  for (x, y, w, h) in faces:
-    face_crop = frame[y:y + h, x:x + w]
-    cropped_faces.append(face_crop)
-
-  return cropped_faces[0] if cropped_faces else frame
+  faces = detect_faces(frame)
+  if faces is not None and len(faces) > 0:
+    x, y, w, h = faces[0]
+    return frame[y:y + h, x:x + w]
+  return frame

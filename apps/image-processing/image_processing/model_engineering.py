@@ -1,7 +1,7 @@
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Layer, Conv2D, Dense, MaxPooling2D, Input, Flatten
 import tensorflow as tf
-
+import config
 
 class L1Dist(Layer):
   def __init__(self, **kwargs):
@@ -55,7 +55,7 @@ def make_siamese_model():
 def load_model_from_checkpoint():
   siamese_model = make_siamese_model()  # You need to import this from your model definition
 
-  checkpoint_dir = './apps/image-processing/image_processing/model/training_checkpoints'
+  checkpoint_dir = config.variables.checkpoint_dir
   checkpoint = tf.train.Checkpoint(siamese_model=siamese_model)
 
   manager = tf.train.CheckpointManager(

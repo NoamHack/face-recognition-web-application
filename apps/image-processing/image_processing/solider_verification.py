@@ -3,13 +3,11 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras.preprocessing import image
 import preprocess_images
-
+import config
 
 def verify(model, detection_threshold, verification_threshold):
-  current_dir = os.getcwd()
-  INPUT_IMAGES_PATH = os.path.join(current_dir, 'apps', 'image-processing', 'image_processing', 'data', 'input_image')
-  VERIFICATION_IMAGES_PATH = os.path.join(current_dir, 'apps', 'image-processing', 'image_processing', 'data',
-                                          'verification_image')
+  INPUT_IMAGES_PATH = config.variables.INP_PATH
+  VERIFICATION_IMAGES_PATH = config.variables.VERIFICATION_IMAGES_PATH
 
   try:
     # Get the input image
@@ -53,11 +51,13 @@ def verify(model, detection_threshold, verification_threshold):
         results = np.array(results).squeeze()
 
         # Detection Threshold: Metric above which a prediction is considered positive
-        detection = np.sum(results > detection_threshold)
+        detection = float(np.sum(results))
+        print(detection)
 
         # Verification Threshold: Proportion of positive predictions / total positive samples
         verification = detection / len(verification_images)
         verified = verification > verification_threshold
+        print(verification)
 
         if verified:
           print(f"Match found in directory: {soldier_dir}")
