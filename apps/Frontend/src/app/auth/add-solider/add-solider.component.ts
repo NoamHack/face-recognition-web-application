@@ -123,8 +123,8 @@ export class AddSoliderComponent {
     if (!context) return;
 
     // Set canvas size to our desired crop dimensions
-    canvas.width = 250;
-    canvas.height = 250;
+    canvas.width = 175;
+    canvas.height = 175;
 
     // Draw only the cropped region
     context.drawImage(

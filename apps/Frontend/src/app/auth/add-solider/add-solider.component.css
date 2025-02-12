@@ -1,4 +1,5 @@
 .video-container {
+  transform: scaleX(-1);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -9,8 +10,8 @@
   position: absolute;
   left: 200px;
   top: 120px;
-  width: 250px;
-  height: 250px;
+  width: 175px;
+  height: 175px;
   border: 2px solid red;
   pointer-events: none;
 }
