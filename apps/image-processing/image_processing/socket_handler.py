@@ -6,6 +6,7 @@ import model_engineering
 import solider_verification
 import time
 import config
+import base64
 
 # Initialize the model
 model = model_engineering.load_model_from_checkpoint()
