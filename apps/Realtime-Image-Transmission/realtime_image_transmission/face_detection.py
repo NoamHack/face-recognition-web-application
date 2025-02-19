@@ -22,14 +22,14 @@ def detect_faces(frame):
 def face_detection_draw_rectangle(frame):
   faces = detect_faces(frame)
   for (x, y, w, h) in faces:
-    cv2.rectangle(frame, (x - 50, y - 50), (x + w + 55, y + h + 55), (255, 0, 0), 2)
+    cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
 
     start_y = max(y - 50, 0)
     start_x = max(x - 50, 0)
     end_y = min(y + h + 50, frame.shape[0])
     end_x = min(x + w + 50, frame.shape[1])
 
-    face_region = frame[start_y:end_y, start_x:end_x]
+    face_region = frame[y:y+h, x:x+w]
     socket_handler.send_frame_to_socket(face_region)
   return frame
 

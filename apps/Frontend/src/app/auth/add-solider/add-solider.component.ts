@@ -102,7 +102,7 @@ export class AddSoliderComponent {
         return;
       }
 
-      this.countdown = 3;
+      this.countdown = 1;
       this.snd.play();
       const countdownInterval = setInterval(() => {
         this.countdown--;
@@ -123,16 +123,16 @@ export class AddSoliderComponent {
     if (!context) return;
 
     // Set canvas size to our desired crop dimensions
-    canvas.width = 250;
-    canvas.height = 250;
+    canvas.width = 200;
+    canvas.height = 200;
 
     // Draw only the cropped region
     context.drawImage(
       video,
-      200, // Start X position to crop from
-      120, // Start Y position to crop from
-      250, // Width of the crop
-      250, // Height of the crop
+      215, // Start X position to crop from
+      150, // Start Y position to crop from
+      175, // Width of the crop
+      200, // Height of the crop
       0, // Destination X on canvas
       0, // Destination Y on canvas
       250, // Destination width
