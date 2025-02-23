@@ -58,6 +58,7 @@ def verify(model, detection_threshold, verification_threshold):
         verification = detection / len(verification_images)
         verified = verification > verification_threshold
         print(verification)
+        print(results)
 
         if verified:
           print(f"Match found in directory: {soldier_dir}")
