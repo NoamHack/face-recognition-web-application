@@ -130,9 +130,9 @@ export class AddSoliderComponent {
     context.drawImage(
       video,
       215, // Start X position to crop from
-      150, // Start Y position to crop from
+      160, // Start Y position to crop from
       175, // Width of the crop
-      200, // Height of the crop
+      250, // Height of the crop
       0, // Destination X on canvas
       0, // Destination Y on canvas
       250, // Destination width
