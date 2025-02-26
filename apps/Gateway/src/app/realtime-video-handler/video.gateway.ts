@@ -29,4 +29,10 @@ export class VideoGateway {
   handleFrame(client: any, frameBase64: string) {
     this.server.emit('frame', frameBase64);
   }
+
+  @SubscribeMessage('prediction_result')
+  handlePrediction(client: any, predictionData: any) {
+    console.log('Received prediction:', predictionData);
+    this.server.emit('prediction_result', predictionData);
+  }
 }

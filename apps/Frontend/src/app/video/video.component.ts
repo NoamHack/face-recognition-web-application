@@ -17,6 +17,11 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class VideoComponent implements OnInit {
   @ViewChild('videoPlayer') videoPlayer!: ElementRef;
 
+  // Add prediction results properties
+  predictionName: string | null = null;
+  predictionVerify: boolean | null = null;
+  predictionResult: any = null;
+
   constructor(
     private applicationRef: ApplicationRef,
     private sanitizer: DomSanitizer
@@ -32,9 +37,18 @@ export class VideoComponent implements OnInit {
 
   startVideoStream() {
     const socket = io('http://localhost:3000');
+
     socket.on('frame', (frameBase64: string) => {
       this.videoPlayer.nativeElement.src =
         'data:image/jpg;base64,' + frameBase64;
+    });
+
+    // Add listener for prediction results
+    socket.on('prediction_result', (predictionData: any) => {
+      console.log('Received prediction results:', predictionData);
+      this.predictionName = predictionData.name;
+      this.predictionVerify = predictionData.verify;
+      this.predictionResult = predictionData.result;
     });
   }
 }

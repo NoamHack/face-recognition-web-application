@@ -7,6 +7,7 @@ import solider_verification
 import time
 import config
 import base64
+import socketio  # Add Socket.IO client
 
 # Initialize the model
 model = model_engineering.load_model_from_checkpoint()
@@ -16,7 +17,29 @@ HOST = config.variables.HOST
 PORT = config.variables.PORT
 INP_PATH = config.variables.INP_PATH
 
+# Initialize Socket.IO client
+sio = socketio.Client()
+
+@sio.event
+def connect():
+  print("Connected to gateway")
+
+@sio.event
+def connect_error(data):
+  print(f"Connection to gateway failed: {data}")
+
+@sio.event
+def disconnect():
+  print("Disconnected from gateway")
+
 def start_socket_server():
+  # Connect to Socket.IO gateway
+  try:
+    sio.connect('http://localhost:3000')
+  except Exception as e:
+    print(f"Failed to connect to gateway: {e}")
+    return
+
   os.makedirs(INP_PATH, exist_ok=True)
 
   # Frame processing configuration
@@ -68,6 +91,13 @@ def start_socket_server():
           last_prediction = {'name': name, 'verify': verify, 'result': result}
           print(f"New Prediction Results - Name: {name}, Verify: {verify}, Result: {result}")
 
+          # Send prediction to gateway
+          try:
+            if sio.connected:
+              sio.emit('prediction_result', last_prediction)
+          except Exception as e:
+            print(f"Failed to send prediction to gateway: {e}")
+
           # Send prediction result
           response_data = pickle.dumps(last_prediction)
           response_size = len(response_data).to_bytes(4, byteorder='big')
@@ -91,3 +121,9 @@ def start_socket_server():
       conn.sendall(error_size + error_response)
     finally:
       conn.close()
+
+  # Disconnect from gateway
+  sio.disconnect()
+
+if __name__ == "__main__":
+  start_socket_server()

@@ -1,9 +1,25 @@
-<div
-  class="video-container flex-auto flex align-items-center justify-content-center p-5"
->
-  <img
-    #videoPlayer
-    class="video-frame p-shadow-3 p-p-2 p-rounded"
-    [src]="videoPlayer.src"
-  />
+<div class="video-container flex-auto flex align-items-center justify-content-center p-5">
+  <div class="video-section">
+    <img
+      #videoPlayer
+      class="video-frame p-shadow-3 p-p-2 p-rounded"
+      [src]="videoPlayer.src"
+    />
+  </div>
+
+  <div class="prediction-results p-4 mt-3 p-shadow-2 p-rounded">
+    <h3 class="mb-3">Verification Results</h3>
+    <div class="result-item mb-2">
+      <strong>Name:</strong> <span>{{ predictionName || 'Unknown' }}</span>
+    </div>
+    <div class="result-item mb-2">
+      <strong>Verification:</strong>
+      <span [ngClass]="{'text-success': predictionVerify, 'text-danger': !predictionVerify}">
+        {{ predictionVerify ? 'Verified' : 'Not Verified' }}
+      </span>
+    </div>
+    <div class="result-item" *ngIf="predictionResult">
+      <strong>Additional Info:</strong> <span>{{ predictionResult }}</span>
+    </div>
+  </div>
 </div>
