@@ -45,10 +45,13 @@ export class VideoComponent implements OnInit {
 
     // Add listener for prediction results
     socket.on('prediction_result', (predictionData: any) => {
-      console.log('Received prediction results:', predictionData);
+      if (predictionData.result instanceof Array) {
+        predictionData.result = Float32Array.from(predictionData.result);
+      }
       this.predictionName = predictionData.name;
-      this.predictionVerify = predictionData.verify;
+      this.predictionVerify = Boolean(predictionData.verify);
       this.predictionResult = predictionData.result;
+      this.applicationRef.tick();
     });
   }
 }

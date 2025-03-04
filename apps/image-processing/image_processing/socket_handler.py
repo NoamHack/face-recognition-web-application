@@ -2,6 +2,9 @@ import socket
 import cv2
 import os
 import pickle
+
+import numpy as np
+
 import model_engineering
 import solider_verification
 import time
@@ -88,7 +91,11 @@ def start_socket_server():
             config.variables.detection_threshold,
             config.variables.verification_threshold
           )
-          last_prediction = {'name': name, 'verify': verify, 'result': result}
+          last_prediction = {
+            'name': str(name),
+            'verify': bool(np.asarray(verify)),
+            'result': result.tolist() if isinstance(result, np.ndarray) else result
+          }
           print(f"New Prediction Results - Name: {name}, Verify: {verify}, Result: {result}")
 
           # Send prediction to gateway
