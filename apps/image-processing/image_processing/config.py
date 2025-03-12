@@ -5,8 +5,8 @@ class variables():
   number_of_augmentations = 25
   epocs = 10
 
-  detection_threshold = 0.8
-  verification_threshold = 0.8
+  detection_threshold = 0.9
+  verification_threshold = 0.9
 
   current_dir = os.getcwd()
 
