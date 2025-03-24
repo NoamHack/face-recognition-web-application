@@ -2,11 +2,11 @@ import os
 
 
 class variables():
-  number_of_augmentations = 25
+  number_of_augmentations = 50
   epocs = 10
 
-  detection_threshold = 0.9
-  verification_threshold = 0.9
+  detection_threshold = 0.98
+  verification_threshold = 0.98
 
   current_dir = os.getcwd()
 
