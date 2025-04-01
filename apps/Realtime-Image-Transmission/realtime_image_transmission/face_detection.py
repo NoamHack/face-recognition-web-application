@@ -25,6 +25,9 @@ def face_detection_draw_rectangle(frame):
   for (x, y, w, h) in faces:
     face_region = frame[y:y + h + 30, x + 22:x + w - 22]
 
+    if w < 150:
+      continue
+
     if face_region is None or face_region.size == 0:
       print("Empty face region encountered. Skipping resizing.")
       continue

@@ -21,8 +21,8 @@ if gpus:
       print(f"Memory growth set for GPU: {gpu}")
     except RuntimeError as e:
       print(f"Could not set memory growth for GPU: {e}")
-
-
+#
+#
 # mongo_connection.add_positives_anchors_and_verification_from_mongo()
 #
 # data_augmentation.data_augment_positive_directory()

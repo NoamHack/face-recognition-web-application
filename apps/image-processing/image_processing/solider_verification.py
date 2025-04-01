@@ -5,6 +5,8 @@ from tensorflow.keras.preprocessing import image
 import preprocess_images
 import config
 
+tf.config.list_physical_devices('GPU')
+
 def verify(model, detection_threshold, verification_threshold):
   INPUT_IMAGES_PATH = config.variables.INP_PATH
   VERIFICATION_IMAGES_PATH = config.variables.VERIFICATION_IMAGES_PATH
