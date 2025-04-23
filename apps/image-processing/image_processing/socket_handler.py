@@ -94,7 +94,7 @@ def start_socket_server():
           last_prediction = {
             'name': str(name),
             'verify': bool(np.asarray(verify)),
-            'result': result.tolist() if isinstance(result, np.ndarray) else result
+            'result': round(result, 2) * 100
           }
           print(f"New Prediction Results - Name: {name}, Verify: {verify}, Result: {result}")
 
