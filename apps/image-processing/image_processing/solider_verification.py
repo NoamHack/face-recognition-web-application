@@ -8,6 +8,7 @@ import config
 tf.config.list_physical_devices('GPU')
 
 def verify(model, detection_threshold, verification_threshold):
+  global verification
   INPUT_IMAGES_PATH = config.variables.INP_PATH
   VERIFICATION_IMAGES_PATH = config.variables.VERIFICATION_IMAGES_PATH
 
@@ -54,20 +55,17 @@ def verify(model, detection_threshold, verification_threshold):
 
         # Detection Threshold: Metric above which a prediction is considered positive
         detection = float(np.sum(results))
-        print(detection)
 
         # Verification Threshold: Proportion of positive predictions / total positive samples
         verification = detection / len(verification_images)
         verified = verification > verification_threshold
-        print(verification)
-        print(results)
 
         if verified:
           print(f"Match found in directory: {soldier_dir}")
-          return soldier_dir, results, True
+          return soldier_dir, verification, True
 
     print("No matching soldier found in any directory")
-    return None, None, False
+    return None, verification, False
 
   except Exception as e:
     print(f"Error in verification process: {str(e)}")

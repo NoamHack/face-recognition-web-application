@@ -10,16 +10,16 @@
   <div class="prediction-results p-4 mt-3 p-shadow-2 p-rounded">
     <h3 class="mb-3">Verification Results</h3>
     <div class="result-item mb-2">
-      <strong>Name:</strong> <span>{{ predictionName || 'Unknown' }}</span>
+      <strong>Name: </strong> <span>{{ predictionName || 'Unknown' }}</span>
     </div>
     <div class="result-item mb-2">
-      <strong>Verification:</strong>
+      <strong>Verification: </strong>
       <span [ngClass]="{'text-success': predictionVerify, 'text-danger': !predictionVerify}">
         {{ predictionVerify ? 'Verified' : 'Not Verified' }}
       </span>
     </div>
     <div class="result-item" *ngIf="predictionResult">
-      <strong>Additional Info:</strong> <span>{{ predictionResult }}</span>
+      <strong>Percentage: </strong> <span>{{ predictionResult }}%</span>
     </div>
   </div>
 </div>
