@@ -2,15 +2,13 @@ import socket
 import cv2
 import os
 import pickle
-
 import numpy as np
-
 import model_engineering
 import solider_verification
 import time
 import config
 import base64
-import socketio  # Add Socket.IO client
+import socketio
 
 # Initialize the model
 model = model_engineering.load_model_from_checkpoint()
@@ -25,22 +23,31 @@ sio = socketio.Client()
 
 @sio.event
 def connect():
-  print("Connected to gateway")
+  print("[Socket] Connected to gateway successfully")
 
 @sio.event
 def connect_error(data):
-  print(f"Connection to gateway failed: {data}")
+  print(f"[Socket] Connection to gateway failed: {data}")
 
 @sio.event
 def disconnect():
-  print("Disconnected from gateway")
+  print("[Socket] Disconnected from gateway")
+
+@sio.on('soldier_created')
+def on_soldier_created(data):
+  print("[Socket] Received soldier_created event")
+  print(f"[Socket] Event data: {data}")
+  # Here you can add any additional processing needed when a new soldier is created
+  # For example, you might want to reload the model or update some internal state
 
 def start_socket_server():
+  print("[Socket] Attempting to connect to gateway...")
   # Connect to Socket.IO gateway
   try:
     sio.connect('http://localhost:3000')
+    print("[Socket] Successfully connected to gateway")
   except Exception as e:
-    print(f"Failed to connect to gateway: {e}")
+    print(f"[Socket] Failed to connect to gateway: {e}")
     return
 
   os.makedirs(INP_PATH, exist_ok=True)
@@ -54,11 +61,11 @@ def start_socket_server():
   server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
   server_socket.bind((HOST, PORT))
   server_socket.listen()
-  print(f"Server listening on {HOST}:{PORT}")
+  print(f"[Socket] Server listening on {HOST}:{PORT}")
 
   while True:
     conn, addr = server_socket.accept()
-    print(f"Connected by {addr}")
+    print(f"[Socket] Connected by {addr}")
 
     try:
       while True:
@@ -96,14 +103,15 @@ def start_socket_server():
             'verify': bool(np.asarray(verify)),
             'result': round(result, 2) * 100
           }
-          print(f"New Prediction Results - Name: {name}, Verify: {verify}, Result: {result}")
+          print(f"[Socket] New Prediction Results - Name: {name}, Verify: {verify}, Result: {result}")
 
           # Send prediction to gateway
           try:
             if sio.connected:
               sio.emit('prediction_result', last_prediction)
+              print("[Socket] Sent prediction result to gateway")
           except Exception as e:
-            print(f"Failed to send prediction to gateway: {e}")
+            print(f"[Socket] Failed to send prediction to gateway: {e}")
 
           # Send prediction result
           response_data = pickle.dumps(last_prediction)
@@ -122,7 +130,7 @@ def start_socket_server():
           frame_counter = 0
 
     except Exception as e:
-      print(f"Error processing frame: {e}")
+      print(f"[Socket] Error processing frame: {e}")
       error_response = pickle.dumps({'error': str(e)})
       error_size = len(error_response).to_bytes(4, byteorder='big')
       conn.sendall(error_size + error_response)
