@@ -2,9 +2,14 @@ import socket
 import cv2
 import os
 import pickle
+import shutil
 import numpy as np
 import model_engineering
 import solider_verification
+import data_augmentation
+import mongo_connection
+import preprocess_images
+import model_training
 import time
 import config
 import base64
@@ -17,6 +22,7 @@ model = model_engineering.load_model_from_checkpoint()
 HOST = config.variables.HOST
 PORT = config.variables.PORT
 INP_PATH = config.variables.INP_PATH
+EPOCHS = config.variables.epocs
 
 # Initialize Socket.IO client
 sio = socketio.Client()
@@ -37,8 +43,35 @@ def disconnect():
 def on_soldier_created(data):
   print("[Socket] Received soldier_created event")
   print(f"[Socket] Event data: {data}")
-  # Here you can add any additional processing needed when a new soldier is created
-  # For example, you might want to reload the model or update some internal state
+
+  # Define paths to delete
+  paths_to_delete = [
+    os.path.join('apps', 'image-processing', 'image_processing', 'data', 'anchor'),
+    os.path.join('apps', 'image-processing', 'image_processing', 'data', 'verification_image'),
+    os.path.join('apps', 'image-processing', 'image_processing', 'data', 'positive')
+  ]
+
+  # Delete each folder
+  for path in paths_to_delete:
+    try:
+      if os.path.exists(path):
+        shutil.rmtree(path)
+        print(f"[Socket] Successfully deleted folder: {path}")
+      else:
+        print(f"[Socket] Folder does not exist: {path}")
+    except Exception as e:
+      print(f"[Socket] Error deleting folder {path}: {e}")
+
+  mongo_connection.add_positives_anchors_and_verification_from_mongo()
+
+  data_augmentation.data_augment_positive_directory()
+
+  data_augmentation.data_augment_anchor_directory()
+
+  train_data, test_data = preprocess_images.load_datasets_and_create_partitions()
+
+  model_training.train(train_data, EPOCHS)
+
 
 def start_socket_server():
   print("[Socket] Attempting to connect to gateway...")
