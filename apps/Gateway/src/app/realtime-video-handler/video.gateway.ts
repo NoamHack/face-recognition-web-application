@@ -35,4 +35,16 @@ export class VideoGateway {
     console.log('Received prediction:', predictionData);
     this.server.emit('prediction_result', predictionData);
   }
+
+  @SubscribeMessage('start_video')
+  handleStartVideo(client: any) {
+    console.log('Starting video transmission');
+    this.server.emit('start_video');
+  }
+
+  @SubscribeMessage('stop_video')
+  handleStopVideo(client: any) {
+    console.log('Stopping video transmission');
+    this.server.emit('stop_video');
+  }
 }

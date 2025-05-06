@@ -1,9 +1,10 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SoliderDto } from '../../dto/solider.dto';
 import { addSolider, addSoliderPics } from '../../store';
 import { MessageService } from 'primeng/api';
 import { SoliderPicsDto } from '../../dto/solider-pics.dto';
+import { io } from 'socket.io-client';
 
 @Component({
   selector: 'app-register',
@@ -11,7 +12,7 @@ import { SoliderPicsDto } from '../../dto/solider-pics.dto';
   styleUrls: ['./add-solider.component.css'],
   providers: [MessageService],
 })
-export class AddSoliderComponent {
+export class AddSoliderComponent implements OnInit, OnDestroy {
   @ViewChild('video') video!: ElementRef<HTMLVideoElement>;
   @ViewChild('canvas') canvas!: ElementRef<HTMLCanvasElement>;
   photos: string[] = [];
@@ -23,10 +24,24 @@ export class AddSoliderComponent {
   displayPhotosDialog = false;
   snd = new Audio('/3-2-1-countdown.mp3');
   isTakingPhotos = false;
+  private socket: any;
 
   numberOfPhotos = 8;
 
   constructor(private store: Store, private messageService: MessageService) {}
+
+  ngOnInit() {
+    this.socket = io('http://localhost:3000');
+    this.socket.emit('stop_video');
+  }
+
+  ngOnDestroy() {
+    this.stopCamera();
+    if (this.socket) {
+      this.socket.emit('start_video');
+      this.socket.disconnect();
+    }
+  }
 
   onSubmit() {
     if (
@@ -197,9 +212,5 @@ export class AddSoliderComponent {
       summary: 'Photos Saved',
       detail: 'All photos have been saved successfully.',
     });
-  }
-
-  ngOnDestroy() {
-    this.stopCamera();
   }
 }
