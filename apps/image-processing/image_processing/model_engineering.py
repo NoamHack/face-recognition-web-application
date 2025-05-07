@@ -69,5 +69,6 @@ def load_model_from_checkpoint():
     print(f"Model restored from checkpoint: {manager.latest_checkpoint}")
     return siamese_model
   else:
-    raise Exception("No checkpoint found. Please train the model first.")
+    Exception("No checkpoint found. Please train the model first.")
+    return siamese_model
 

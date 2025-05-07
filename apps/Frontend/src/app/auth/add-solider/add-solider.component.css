@@ -6,12 +6,10 @@
   padding: 20px;
 }
 
-.crop-marker {
-  position: absolute;
-  left: 200px;
-  top: 120px;
-  width: 175px;
-  height: 250px;
-  border: 2px solid blue;
+.video-container canvas {
   pointer-events: none;
+}
+
+.crop-marker {
+  display: none; /* Hide the static crop marker since we're using dynamic face detection */
 }

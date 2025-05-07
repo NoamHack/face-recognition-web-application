@@ -71,6 +71,11 @@ def on_soldier_created(data):
   train_data, test_data = preprocess_images.load_datasets_and_create_partitions()
 
   model_training.train(train_data, EPOCHS)
+  
+  # Reload the model from checkpoint after training
+  global model
+  model = model_engineering.load_model_from_checkpoint()
+  print("[Socket] Model reloaded from checkpoint after training")
 
 
 def start_socket_server():

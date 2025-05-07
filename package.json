@@ -29,6 +29,7 @@
     "class-validator": "^0.14.1",
     "cors": "^2.8.5",
     "express": "^4.21.1",
+    "face-api.js": "^0.22.2",
     "js-sha256": "^0.11.0",
     "mongoose": "^8.8.1",
     "primeflex": "^3.3.1",

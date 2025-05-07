@@ -84,6 +84,7 @@
             </div>
             <div style="position: relative;">
               <video #video [width]="640" [height]="480"  autoplay muted></video>
+              <canvas #overlay [width]="640" [height]="480" style="position: absolute; top: 0; left: 0;"></canvas>
               <div class="crop-marker"></div>
             </div>
             <canvas #canvas style="display: none" [width]="250" [height]="250"></canvas>

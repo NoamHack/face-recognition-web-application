@@ -23,7 +23,7 @@ def detect_faces(frame):
 def face_detection_draw_rectangle(frame):
   faces = detect_faces(frame)
   for (x, y, w, h) in faces:
-    face_region = frame[y:y + h + 30, x + 22:x + w - 22]
+    face_region = frame[y:y + h + 30, x:x + w]
 
     if w < 150:
       continue
@@ -35,7 +35,7 @@ def face_detection_draw_rectangle(frame):
     face_region_resized = cv2.resize(face_region, (200, 200))
 
     socket_handler.send_frame_to_socket(face_region_resized)
-    cv2.rectangle(frame, (x + 22, y), (x + w - 22, y + h + 30), (255, 0, 0), 2)
+    cv2.rectangle(frame, (x, y), (x + w, y + h + 30), (255, 0, 0), 2)
 
   return frame
 
@@ -43,7 +43,7 @@ def face_detection_crop(frame):
   faces = detect_faces(frame)
   if faces is not None and len(faces) > 0:
     x, y, w, h = faces[0]
-    face_region = frame[y:y+h + 30, x + 22:x+w - 22]
+    face_region = frame[y:y+h + 30, x:x+w]
     face_region_resized = cv2.resize(face_region, (200, 200))
     return face_region_resized
   return frame
