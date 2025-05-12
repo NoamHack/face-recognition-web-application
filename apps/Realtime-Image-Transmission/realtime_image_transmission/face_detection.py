@@ -9,7 +9,15 @@ HAARCASCADE_PATH = (
 face_cascade = cv2.CascadeClassifier(HAARCASCADE_PATH)
 
 def detect_faces(frame):
-  gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+  # Calculate scaling factor to resize frame for faster detection
+  scale_factor = 0.5  # Reduce size to 50%
+  height, width = frame.shape[:2]
+  small_frame = cv2.resize(frame, (int(width * scale_factor), int(height * scale_factor)))
+  
+  # Convert to grayscale for detection
+  gray_frame = cv2.cvtColor(small_frame, cv2.COLOR_BGR2GRAY)
+  
+  # Detect faces on smaller frame
   faces = face_cascade.detectMultiScale(
     gray_frame,
     scaleFactor=1.1,
@@ -17,6 +25,11 @@ def detect_faces(frame):
     minSize=(30, 30),
     flags=cv2.CASCADE_SCALE_IMAGE
   )
+  
+  # Scale the face coordinates back to original size
+  faces = [(int(x/scale_factor), int(y/scale_factor), 
+           int(w/scale_factor), int(h/scale_factor)) for (x, y, w, h) in faces]
+  
   return faces
 
 
