@@ -43,7 +43,7 @@ export class UserEffects {
           tap(() => {
             console.log('Soldier added successfully');
             AuthGuard.AccessUrlNavigation();
-            this.router.navigate(['/login'], { skipLocationChange: true });
+            this.router.navigate(['/video'], { skipLocationChange: true });
           }),
           catchError((error) => {
             console.error('Error adding soldier:', error);
@@ -70,7 +70,7 @@ export class UserEffects {
             summary: 'Solider added successfully',
           });
           AuthGuard.AccessUrlNavigation();
-          this.router.navigate(['/login']);
+          this.router.navigate(['/video']);
         })
       ),
     { dispatch: false }

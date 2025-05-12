@@ -24,16 +24,6 @@ export class NavBarComponent {
         },
       },
       {
-        label: 'Sign-In',
-        icon: 'pi pi pi-sign-in',
-        command: () => {
-          AuthGuard.AccessUrlNavigation();
-          this.router.navigate(['/login'], {
-            skipLocationChange: true,
-          });
-        },
-      },
-      {
         label: 'Video',
         icon: 'pi pi-video',
         command: () => {

@@ -11,7 +11,6 @@ import {
   BrowserAnimationsModule,
   provideAnimations,
 } from '@angular/platform-browser/animations';
-import { LoginModule } from './auth/login/login.module';
 import { AddSoliderModule } from './auth/add-solider/add-solider.module';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
@@ -32,7 +31,6 @@ import { NavBarModule } from './nav-bar/nav-bar.module';
     RouterModule.forRoot(appRoutes),
     VideoModule,
     BrowserAnimationsModule,
-    LoginModule,
     AddSoliderModule,
     StoreModule.forRoot(),
     StoreModule.forFeature(userFeature),
